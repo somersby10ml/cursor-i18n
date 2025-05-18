@@ -19,9 +19,12 @@ export const REPLACEMENTS: Replacement[] = [
   { originalText: "Import", changeText: "가져오기", searchType: "exact" },
   { originalText: "Appearance", changeText: "모양", searchType: "exact" },
   { originalText: "Configure how Cursor looks and feels.", changeText: "Cursor의 외관과 느낌을 구성합니다.", searchType: "exact" },
-  { originalText: "Open editor settings. (font, auto-save, word wrap, etc)", changeText: "편집기 설정을 엽니다. (글꼴, 자동 저장, 자동 줄바꿈 등)", searchType: "exact" },
-  { originalText: "Configure keyboard shortcuts.", changeText: "키보드 단축키를 구성합니다.", searchType: "exact" },
-  { originalText: "Use Ctrl+Shift+P for the command palette, where many editor functions can be controlled.", changeText: "Ctrl+Shift+P를 사용하여 많은 편집기 기능을 제어할 수 있는 명령 팔레트를 엽니다.", searchType: "exact" },
+  { 
+    originalText: "<div><span>Open editor settings.</span> (font, auto-save, word wrap, etc)<br><br><span>Configure keyboard shortcuts.</span> <br><br>Use <span></span> for the command palette, where many editor functions can be controlled.", 
+    changeText: "<div><span>편집기 설정을 엽니다.</span> (글꼴, 자동 저장, 자동 줄바꿈 등)<br><br><span>키보드 단축키를 구성합니다.</span> <br><br>많은 편집기 기능을 제어할 수 있는 명령 팔레트를 열려면 <span></span>를 사용하세요.", 
+    searchType: "exact" 
+  },
+  { originalText: "If on, none of your code will be stored by us. If off, we use prompts and telemetry to improve Cursor.", changeText: "활성화하면 코드가 저장되지 않습니다. 비활성화하면 프롬프트와 원격 분석을 사용하여 Cursor를 개선합니다.", searchType: "exact" },
   { originalText: "Privacy mode", changeText: "개인 정보 보호 모드", searchType: "exact" },
   { originalText: "If on, none of your code will be stored by us. If off, we use prompts and telemetry to improve Cursor. This is a machine-level setting, not account-level. Read more.", changeText: "활성화하면 코드가 저장되지 않습니다. 비활성화하면 프롬프트와 원격 분석을 사용하여 Cursor를 개선합니다. 이는 계정 수준이 아닌 기기 수준 설정입니다. 자세히 보기.", searchType: "exact" },
   { originalText: "Enabled (all code remains private)", changeText: "활성화됨 (모든 코드는 비공개로 유지됨)", searchType: "exact" },
