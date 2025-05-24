@@ -123,4 +123,24 @@ export const REPLACEMENTS: Replacement[] = [
 { originalText: "Use preview box for terminal", changeText: "터미널에 미리보기 상자 사용", searchType: "partial"},
 { originalText: "If turned off, responses are streamed directly into the shell", changeText: "비활성화하면 응답이 셸에 직접 스트리밍됩니다", searchType: "exact"},
 
+{ originalText: "Beta features", changeText: "베타 기능", searchType: "exact"},
+{ originalText: "Update frequency", changeText: "업데이트 빈도", searchType: "exact"},
+{ originalText: "Get updates as soon as they are ready. Early Access updates may be unstable for production work.", changeText: "준비되는 즉시 업데이트를 받습니다. 얼리 액세스 업데이트는 프로덕션 작업에서 불안정할 수 있습니다.", searchType: "exact"},
+{ originalText: "Standard", changeText: "표준", searchType: "exact"},
+{ originalText: "Notepads", changeText: "노트패드", searchType: "exact"},
+{ originalText: "Craft and share context between chat and composers", changeText: "채팅과 컴포저 간에 컨텍스트를 작성하고 공유", searchType: "exact"},
+{ originalText: "Bug Finder", changeText: "버그 파인더", searchType: "exact"},
+{ originalText: "Run a bug finder on your current git diff to find bugs.", changeText: "현재 git diff에서 버그 파인더를 실행하여 버그를 찾습니다.", searchType: "exact"},
+{ originalText: "<div><div>Check out the Bug Finder tab in the Activity Bar.", changeText: "<div><div>활동 표시줄의 버그 파인더 탭을 확인하세요.", searchType: "exact"},
+{ originalText: "Background Agent", changeText: "백그라운드 에이전트", searchType: "exact"},
+{ originalText: "Enable the background agent, in beta. Allows you to run agents in the cloud.", changeText: "베타 버전인 백그라운드 에이전트를 활성화합니다. 클라우드에서 에이전트를 실행할 수 있습니다.", searchType: "exact"},
+
+
+{ originalText: "<h3>Enable Background Agents (preview)", changeText: "<h3>백그라운드 에이전트 활성화 (미리보기)", searchType: "exact" },
+{ originalText: '<div>Background agents run in parallel in their own remote developer environments. This feature is in <strong>beta</strong>, and has a few caveats:', changeText: '<div>백그라운드 에이전트는 자체 원격 개발 환경에서 병렬로 실행됩니다. 이 기능은 <strong>베타</strong>이며 몇 가지 주의사항이 있습니다:', searchType: "exact" },
+{ originalText: '<ul><li><strong>Privacy:</strong> During the preview period, background agents are only available if you have privacy mode disabled.</li><li><strong>Security:</strong> Background agents run in isolated remote environments. We have prioritized security while building this, but the code has not yet been audited. Please email security@cursor.com with any concerns.</li><li><strong>Cost:</strong> During the preview period, background agents cost the same as normal agents (but only MAX models are supported, which can be quite expensive).', changeText: '<ul><li><strong>개인 정보 보호:</strong> 미리보기 기간 동안 백그라운드 에이전트는 개인 정보 보호 모드를 비활성화한 경우에만 사용할 수 있습니다.</li><li><strong>보안:</strong> 백그라운드 에이전트는 격리된 원격 환경에서 실행됩니다. 이 기능을 구축하는 동안 보안을 우선시했지만, 코드가 아직 감사되지 않았습니다. 우려 사항이 있으면 security@cursor.com으로 이메일을 보내주세요.</li><li><strong>비용:</strong> 미리보기 기간 동안 백그라운드 에이전트는 일반 에이전트와 동일한 비용이 발생합니다(단, 꽤 비용이 많이 들 수 있는 MAX 모델만 지원됩니다).', searchType: "exact" },
+
+  { originalText: '<div>You can find more details at <span>docs.cursor.com/background-agent</span>.', changeText: '<div>자세한 내용은 <span>docs.cursor.com/background-agent</span>를 참조하세요.', searchType: "exact" },
+
+  { originalText: '<div class="mt-4 mb-4 relative">To enable background agents in preview, please <span>go to Settings</span> and disable privacy mode.', changeText: '<div class="mt-4 mb-4 relative">미리보기에서 백그라운드 에이전트를 활성화하려면 <span>go to Settings</span> 을 눌러 설정으로 이동 하여 개인 정보 보호 모드를 비활성화하세요.', searchType: "exact" }
 ];
