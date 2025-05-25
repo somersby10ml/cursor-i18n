@@ -142,5 +142,35 @@ export const REPLACEMENTS: Replacement[] = [
 
   { originalText: '<div>You can find more details at <span>docs.cursor.com/background-agent</span>.', changeText: '<div>자세한 내용은 <span>docs.cursor.com/background-agent</span>를 참조하세요.', searchType: "exact" },
 
-  { originalText: '<div class="mt-4 mb-4 relative">To enable background agents in preview, please <span>go to Settings</span> and disable privacy mode.', changeText: '<div class="mt-4 mb-4 relative">미리보기에서 백그라운드 에이전트를 활성화하려면 <span>go to Settings</span> 을 눌러 설정으로 이동 하여 개인 정보 보호 모드를 비활성화하세요.', searchType: "exact" }
+  { originalText: '<div class="mt-4 mb-4 relative">To enable background agents in preview, please <span>go to Settings</span> and disable privacy mode.', changeText: '<div class="mt-4 mb-4 relative">미리보기에서 백그라운드 에이전트를 활성화하려면 <span>go to Settings</span> 을 눌러 설정으로 이동 하여 개인 정보 보호 모드를 비활성화하세요.', searchType: "exact" },
+
+{ originalText: "Codebase Indexing", changeText: "코드베이스 인덱싱", searchType: "exact"},
+
+{originalText: 'Embeddings improve your codebase-wide answers. Embeddings and metadata are stored in the', changeText: '임베딩은 코드베이스 전체 답변을 개선합니다. 임베딩과 메타데이터는 다음 위치에 저장됩니다. ', searchType: "exact"},
+{originalText: ', but all code is stored locally.', changeText: ', 하지만 모든 코드는 로컬에 저장됩니다.', searchType: "exact"},
+
+
+{ originalText: "Synced (11 files)", changeText: "동기화됨 (11개 파일)", searchType: "exact"},
+{ originalText: "Resync Index", changeText: "인덱스 재동기화", searchType: "exact"},
+{ originalText: "Delete Index", changeText: "인덱스 삭제", searchType: "exact"},
+{ originalText: "Index new folders by default", changeText: "기본적으로 새 폴더 인덱싱", searchType: "exact"},
+{ originalText: "Enabled", changeText: "활성화됨", searchType: "exact"},
+
+{ originalText: "Ignore files", changeText: "파일 무시", searchType: "exact"},
+{ originalText: "Configure ignored files", changeText: "무시할 파일 구성", searchType: "exact"},
+{
+   originalText: "Configure the files that Cursor will ignore when indexing your repository (in addition to your .gitignore).", 
+   changeText: "저장소를 인덱싱할 때 Cursor가 무시할 파일을 구성합니다.", 
+   searchType: "exact"
+},
+{ originalText: "Git graph file relationships", changeText: "Git 그래프 파일 관계", searchType: "exact"},
+{ originalText: "default", changeText: "기본값", searchType: "exact"},
+{ originalText: 'When set to true, Cursor will by default index any new folders opened. If turned off, you can still manually index folders by clicking the "Compute Index" button. Folders with more than', changeText: '활성화 시 Cursor는 기본적으로 새로 열리는 모든 폴더를 색인합니다. 이 기능을 끄더라도 "인덱스 계산" 버튼을 클릭하여 폴더를 수동으로 색인할 수 있습니다.', searchType: "exact"},
+
+{originalText: "files will not be auto-indexed.", changeText: " 개의 파일은 자동으로 인덱싱되지 않습니다.", searchType: "exact"},
+
+{originalText: 'When enabled, Cursor will index your git history to help understand which files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and obfuscated file names) are stored on the server.',
+  changeText: '활성화하면 Cursor는 git 기록을 인덱싱하여 파일 간의 관계를 이해하는 데 도움을 줍니다. 코드와 커밋 메시지는 로컬에 저장되지만 커밋에 대한 메타데이터(SHA, 변경 사항 수 및 난독화된 파일 이름)는 서버에 저장됩니다.',
+  searchType: "exact"
+}
 ];
