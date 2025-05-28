@@ -41,7 +41,7 @@ export function patchPackageJson(cursorInstallPath: string, interceptorFileName:
 
     // 변경된 package.json 저장
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf-8');
-    console.log(`[INFO] ✅ package.json patched successfully`);
+    console.log(`[INFO] package.json patched successfully`);
 
   } catch (error) {
     console.error(`[ERROR] Failed to patch package.json:`, error);
@@ -90,11 +90,7 @@ export function restorePackageJson(cursorInstallPath: string): void {
  * @param interceptorSourcePath 인터셉터 소스 파일 경로
  * @param fileName 대상 파일명
  */
-export function deployInterceptor(
-  cursorInstallPath: string,
-  interceptorSourcePath: string,
-  fileName: string
-): void {
+export function deployInterceptor(cursorInstallPath: string, interceptorSourcePath: string, fileName: string): void {
   const targetDir = path.join(cursorInstallPath, 'resources', 'app', 'out');
   const targetPath = path.join(targetDir, fileName);
 
@@ -117,7 +113,7 @@ export function deployInterceptor(
 
     // 인터셉터 파일 복사
     fs.copyFileSync(interceptorSourcePath, targetPath);
-    console.log(`[INFO] ✅ Interceptor deployed successfully`);
+    console.log(`[INFO] Interceptor deployed successfully`);
 
   } catch (error) {
     console.error(`[ERROR] Failed to deploy interceptor:`, error);
