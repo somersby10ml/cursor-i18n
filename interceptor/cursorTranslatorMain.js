@@ -18,12 +18,11 @@ const TARGET_SCHEME = 'vscode-file';
  */
 function vscodeUrlToPath(url) {
     try {
-        if (!url || typeof url !== 'string') {
+        if (typeof url !== 'string') {
             return null;
         }
 
         const parsedUrl = new URL(url);
-
         if (parsedUrl.protocol !== `${TARGET_SCHEME}:`) {
             return null;
         }
@@ -87,37 +86,36 @@ function createRedirectUrl(originalUrl) {
 function applyProtocolPatch() {
     try {
         const originalRegisterFileProtocol = session.defaultSession.protocol.registerFileProtocol;
-
         session.defaultSession.protocol.registerFileProtocol = function (scheme, handler) {
-            if (scheme === TARGET_SCHEME) {
-                console.log(`[Patcher] Intercepting '${scheme}' protocol`);
-
-                const wrappedHandler = (request, callback) => {
-                    const originalUrl = request.url;
-                    const filePath = vscodeUrlToPath(originalUrl);
-
-                    if (filePath && shouldRedirect(filePath)) {
-                        const redirectUrl = createRedirectUrl(originalUrl);
-                        console.log(`[Patcher] ✅ Redirecting: ${TARGET_FILENAME} → ${TRANSLATED_FILENAME}`);
-
-                        const modifiedRequest = { ...request, url: redirectUrl };
-                        return handler(modifiedRequest, callback);
-                    }
-
-                    return handler(request, callback);
-                };
-
-                return originalRegisterFileProtocol.call(this, scheme, wrappedHandler);
+            if (scheme !== TARGET_SCHEME) {
+                return originalRegisterFileProtocol.call(this, scheme, handler);
             }
-
-            return originalRegisterFileProtocol.call(this, scheme, handler);
+            console.log(`[Patcher] Intercepting '${scheme}' protocol`);
+            return originalRegisterFileProtocol.call(this, scheme, createWrappedHandler(handler));
         };
-
+        
         console.log('[Patcher] ✅ Protocol interceptor installed successfully');
-
+        
     } catch (error) {
         console.error('[Patcher] ❌ Failed to install protocol interceptor:', error.message);
     }
+}
+
+function createWrappedHandler(handler) {
+    return (request, callback) => {
+        const originalUrl = request.url;
+        const filePath = vscodeUrlToPath(originalUrl);
+        
+        if (!filePath || !shouldRedirect(filePath)) {
+            return handler(request, callback);
+        }
+        
+        const redirectUrl = createRedirectUrl(originalUrl);
+        console.log(`[Patcher] ✅ Redirecting: ${TARGET_FILENAME} → ${TRANSLATED_FILENAME}`);
+        
+        const modifiedRequest = { ...request, url: redirectUrl };
+        return handler(modifiedRequest, callback);
+    };
 }
 
 /**
