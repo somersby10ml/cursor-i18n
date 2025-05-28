@@ -54,35 +54,31 @@ interface PatchResult {
  * @returns 패치 결과 정보
  * @throws {Error} 파일 접근 오류, 파싱 오류, 또는 보안 위험이 감지된 경우
  */
-export function createTranslatedFile(
-    filePath: string,
-    replacements: readonly Replacement[],
-    languageCode: string
-): PatchResult {
+export function createTranslatedFile(filePath: string, replacements: readonly Replacement[], languageCode: string): PatchResult {
     console.log(`[INFO] Creating translated file for language: ${languageCode}`);
 
-    // 1. 입력 유효성 검증
+    // 입력 유효성 검증
     validateInputs(filePath, replacements, languageCode);
 
-    // 2. 언어 정보 조회
+    // 언어 정보 조회
     const languageInfo = getLanguageInfo(languageCode);
     if (!languageInfo) {
         throw new Error(`Unsupported language code: ${languageCode}`);
     }
 
-    // 3. 원본 파일 읽기 및 보안 검증
+    // 원본 파일 읽기 및 보안 검증
     const source = readAndValidateSourceFile(filePath);
 
-    // 4. AST 파싱 (안전한 코드 분석)
+    // AST 파싱 (안전한 코드 분석)
     const ast = parseSourceCode(source, filePath);
 
-    // 5. 번역 적용을 위한 편집 위치 찾기
+    // 번역 적용을 위한 편집 위치 찾기
     const edits = findTranslationTargets(ast, source, replacements);
 
-    // 6. 편집 적용
+    // 편집 적용
     const translatedContent = applyTranslations(source, edits);
 
-    // 7. 번역된 파일 저장
+    // 번역된 파일 저장
     const translatedFilePath = saveTranslatedFile(filePath, translatedContent);
 
     console.log(`[INFO] ✅ Translation completed: ${edits.length} strings translated`);
@@ -104,11 +100,7 @@ export function createTranslatedFile(
  * 입력 매개변수들의 유효성을 검증합니다.
  * @private
  */
-function validateInputs(
-    filePath: string,
-    replacements: readonly Replacement[],
-    languageCode: string
-): void {
+function validateInputs(filePath: string, replacements: readonly Replacement[], languageCode: string): void {
     if (!filePath || typeof filePath !== 'string') {
         throw new Error('Invalid file path provided');
     }
@@ -173,7 +165,6 @@ function readAndValidateSourceFile(filePath: string): string {
 
 /**
  * 소스 코드를 안전하게 AST로 파싱합니다.
- * @private
  */
 function parseSourceCode(source: string, filePath: string): any {
     try {
@@ -191,7 +182,6 @@ function parseSourceCode(source: string, filePath: string): any {
 
 /**
  * AST에서 번역 대상이 되는 문자열 리터럴들을 찾습니다.
- * @private
  */
 function findTranslationTargets(ast: any, source: string, replacements: readonly Replacement[]): Edit[] {
     const edits: Edit[] = [];
@@ -218,7 +208,6 @@ function findTranslationTargets(ast: any, source: string, replacements: readonly
 
 /**
  * 특정 범위의 문자열에 번역을 적용합니다.
- * @private
  */
 function processStringRange(
     start: number,
@@ -265,7 +254,6 @@ function processStringRange(
 
 /**
  * 편집 목록을 원본 텍스트에 적용합니다.
- * @private
  */
 function applyTranslations(source: string, edits: readonly Edit[]): string {
     // 뒤에서부터 편집을 적용하여 인덱스 변화 방지
@@ -281,7 +269,6 @@ function applyTranslations(source: string, edits: readonly Edit[]): string {
 
 /**
  * 번역된 내용을 새 파일로 저장합니다.
- * @private
  */
 function saveTranslatedFile(
     originalFilePath: string,
@@ -305,14 +292,4 @@ function saveTranslatedFile(
     } catch (error) {
         throw new Error(`Failed to save translated file: ${error}`);
     }
-}
-
-// 하위 호환성을 위한 기존 함수명 유지 (Deprecated)
-/**
- * @deprecated Use createTranslatedFile instead
- */
-export function patchFile(filePath: string, replacements: Replacement[], version: string): string {
-    console.warn('[WARN] patchFile is deprecated. Use createTranslatedFile instead.');
-    const result = createTranslatedFile(filePath, replacements, 'ko');
-    return result.translatedFilePath;
 }
