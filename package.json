@@ -4,7 +4,9 @@
     "main": "src/index.ts",
     "version": "0.0.1",
     "scripts": {
-        "start": "bun run ./src/index.ts"
+        "patch": "bun run ./src/index.ts --patch",
+        "restore": "bun run ./src/index.ts --restore",
+        "help": "bun run ./src/index.ts help"
     },
     "devDependencies": {
         "@types/bun": "latest",
