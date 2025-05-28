@@ -6,18 +6,18 @@ import type { Replacement } from '../../lang/types';
  * 지원되는 언어 정보
  */
 export interface LanguageInfo {
-    readonly code: string;
-    readonly name: string;
-    readonly nativeName: string;
-    readonly enabled: boolean;
+  readonly code: string;
+  readonly name: string;
+  readonly nativeName: string;
+  readonly enabled: boolean;
 }
 
 /**
  * 언어 패키지 정보
  */
 export interface LanguagePackage {
-    readonly info: LanguageInfo;
-    readonly replacements: Replacement[];
+  readonly info: LanguageInfo;
+  readonly replacements: Replacement[];
 }
 
 /**
@@ -25,37 +25,37 @@ export interface LanguagePackage {
  * 새로운 언어를 추가할 때는 이 배열에 추가하고 해당 언어 파일을 lang/ 폴더에 생성
  */
 const SUPPORTED_LANGUAGES: readonly LanguageInfo[] = [
-    {
-        code: 'ko',
-        name: 'Korean',
-        nativeName: '한국어',
-        enabled: true
-    },
-    // 향후 추가 예정 언어들 (언어 파일 생성 후 enabled: true로 변경)
-    {
-        code: 'ja',
-        name: 'Japanese',
-        nativeName: '日本語',
-        enabled: false
-    },
-    {
-        code: 'zh-cn',
-        name: 'Chinese (Simplified)',
-        nativeName: '简体中文',
-        enabled: false
-    },
-    {
-        code: 'es',
-        name: 'Spanish',
-        nativeName: 'Español',
-        enabled: false
-    },
-    {
-        code: 'fr',
-        name: 'French',
-        nativeName: 'Français',
-        enabled: false
-    }
+  {
+    code: 'ko',
+    name: 'Korean',
+    nativeName: '한국어',
+    enabled: true
+  },
+  // 향후 추가 예정 언어들 (언어 파일 생성 후 enabled: true로 변경)
+  {
+    code: 'ja',
+    name: 'Japanese',
+    nativeName: '日本語',
+    enabled: false
+  },
+  {
+    code: 'zh-cn',
+    name: 'Chinese (Simplified)',
+    nativeName: '简体中文',
+    enabled: false
+  },
+  {
+    code: 'es',
+    name: 'Spanish',
+    nativeName: 'Español',
+    enabled: false
+  },
+  {
+    code: 'fr',
+    name: 'French',
+    nativeName: 'Français',
+    enabled: false
+  }
 ] as const;
 
 /**
@@ -63,7 +63,7 @@ const SUPPORTED_LANGUAGES: readonly LanguageInfo[] = [
  * @returns 활성화된 언어 정보 배열
  */
 export function getAvailableLanguages(): readonly LanguageInfo[] {
-    return SUPPORTED_LANGUAGES.filter(lang => lang.enabled);
+  return SUPPORTED_LANGUAGES.filter(lang => lang.enabled);
 }
 
 /**
@@ -72,36 +72,36 @@ export function getAvailableLanguages(): readonly LanguageInfo[] {
  * @returns 언어 패키지 또는 null
  */
 export async function loadLanguagePackage(languageCode: string): Promise<LanguagePackage | null> {
-    // 지원되는 언어인지 확인
-    const languageInfo = SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode);
-    if (!languageInfo) {
-        console.warn(`[WARN] Unsupported language code: ${languageCode}`);
-        return null;
+  // 지원되는 언어인지 확인
+  const languageInfo = SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode);
+  if (!languageInfo) {
+    console.warn(`[WARN] Unsupported language code: ${languageCode}`);
+    return null;
+  }
+
+  if (!languageInfo.enabled) {
+    console.warn(`[WARN] Language not enabled yet: ${languageCode} (${languageInfo.nativeName})`);
+    return null;
+  }
+
+  try {
+    // 동적 import를 사용하여 언어 파일 로드
+    const languageModule = await import(`../../lang/${languageCode}`);
+
+    if (!languageModule.REPLACEMENTS || !Array.isArray(languageModule.REPLACEMENTS)) {
+      throw new Error(`Invalid language file structure for ${languageCode}`);
     }
 
-    if (!languageInfo.enabled) {
-        console.warn(`[WARN] Language not enabled yet: ${languageCode} (${languageInfo.nativeName})`);
-        return null;
-    }
+    console.log(`[INFO] ✅ Loaded ${languageModule.REPLACEMENTS.length} translations for ${languageInfo.nativeName}`);
 
-    try {
-        // 동적 import를 사용하여 언어 파일 로드
-        const languageModule = await import(`../../lang/${languageCode}`);
-
-        if (!languageModule.REPLACEMENTS || !Array.isArray(languageModule.REPLACEMENTS)) {
-            throw new Error(`Invalid language file structure for ${languageCode}`);
-        }
-
-        console.log(`[INFO] ✅ Loaded ${languageModule.REPLACEMENTS.length} translations for ${languageInfo.nativeName}`);
-
-        return {
-            info: languageInfo,
-            replacements: languageModule.REPLACEMENTS
-        };
-    } catch (error) {
-        console.error(`[ERROR] Failed to load language package '${languageCode}':`, error);
-        return null;
-    }
+    return {
+      info: languageInfo,
+      replacements: languageModule.REPLACEMENTS
+    };
+  } catch (error) {
+    console.error(`[ERROR] Failed to load language package '${languageCode}':`, error);
+    return null;
+  }
 }
 
 /**
@@ -110,7 +110,7 @@ export async function loadLanguagePackage(languageCode: string): Promise<Languag
  * @returns 패치 파일명 (예: workbench.desktop.main_translated.js)
  */
 export function generatePatchFileName(baseName: string): string {
-    return `${baseName}_translated.js`;
+  return `${baseName}_translated.js`;
 }
 
 /**
@@ -119,7 +119,7 @@ export function generatePatchFileName(baseName: string): string {
  * @returns 패치 파일인지 여부
  */
 export function isTranslatedFileName(fileName: string): boolean {
-    return fileName.endsWith('_translated.js');
+  return fileName.endsWith('_translated.js');
 }
 
 /**
@@ -128,11 +128,11 @@ export function isTranslatedFileName(fileName: string): boolean {
  * @returns 번역 파일명 (예: workbench.desktop.main_translated.js)
  */
 export function getTranslatedFileName(originalFileName: string): string {
-    if (originalFileName.endsWith('.js')) {
-        const baseName = originalFileName.slice(0, -3); // .js 제거
-        return `${baseName}_translated.js`;
-    }
-    return `${originalFileName}_translated`;
+  if (originalFileName.endsWith('.js')) {
+    const baseName = originalFileName.slice(0, -3); // .js 제거
+    return `${baseName}_translated.js`;
+  }
+  return `${originalFileName}_translated`;
 }
 
 /**
@@ -141,7 +141,7 @@ export function getTranslatedFileName(originalFileName: string): string {
  * @returns 유효하고 활성화된 언어 코드인지 여부
  */
 export function isValidLanguageCode(languageCode: string): boolean {
-    return SUPPORTED_LANGUAGES.some(lang => lang.code === languageCode && lang.enabled);
+  return SUPPORTED_LANGUAGES.some(lang => lang.code === languageCode && lang.enabled);
 }
 
 /**
@@ -150,5 +150,5 @@ export function isValidLanguageCode(languageCode: string): boolean {
  * @returns 언어 정보 또는 null
  */
 export function getLanguageInfo(languageCode: string): LanguageInfo | null {
-    return SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode) ?? null;
+  return SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode) ?? null;
 } 

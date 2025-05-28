@@ -10,52 +10,52 @@ import path from 'path';
  * @returns 정리된 파일 개수
  */
 export function cleanupOldTranslationFiles(
-    targetDir: string,
-    currentVersion: string,
-    baseName: string
+  targetDir: string,
+  currentVersion: string,
+  baseName: string
 ): number {
-    console.log(`[INFO] Cleaning up old translation files in: ${targetDir}`);
+  console.log(`[INFO] Cleaning up old translation files in: ${targetDir}`);
 
-    try {
-        if (!fs.existsSync(targetDir)) {
-            console.warn(`[WARN] Target directory does not exist: ${targetDir}`);
-            return 0;
+  try {
+    if (!fs.existsSync(targetDir)) {
+      console.warn(`[WARN] Target directory does not exist: ${targetDir}`);
+      return 0;
+    }
+
+    const files = fs.readdirSync(targetDir);
+    const translationFilePattern = new RegExp(`^${escapeRegex(baseName)}_v(.+)_([a-z-]+)\\.js$`);
+    let cleanedCount = 0;
+
+    files.forEach(file => {
+      const match = file.match(translationFilePattern);
+      if (match) {
+        const [, fileVersion, languageCode] = match;
+
+        if (!fileVersion || !languageCode) {
+          return;
         }
 
-        const files = fs.readdirSync(targetDir);
-        const translationFilePattern = new RegExp(`^${escapeRegex(baseName)}_v(.+)_([a-z-]+)\\.js$`);
-        let cleanedCount = 0;
+        // 현재 버전이 아닌 파일들만 삭제 (또는 빈 버전인 경우 모든 파일 삭제)
+        if (currentVersion === '' || fileVersion !== currentVersion) {
+          const fullPath = path.join(targetDir, file);
 
-        files.forEach(file => {
-            const match = file.match(translationFilePattern);
-            if (match) {
-                const [, fileVersion, languageCode] = match;
+          try {
+            fs.unlinkSync(fullPath);
+            console.log(`[INFO] Removed translation file: ${file} (${languageCode} v${fileVersion})`);
+            cleanedCount++;
+          } catch (error) {
+            console.warn(`[WARN] Failed to remove file ${file}: ${error}`);
+          }
+        }
+      }
+    });
 
-                if (!fileVersion || !languageCode) {
-                    return;
-                }
-
-                // 현재 버전이 아닌 파일들만 삭제 (또는 빈 버전인 경우 모든 파일 삭제)
-                if (currentVersion === '' || fileVersion !== currentVersion) {
-                    const fullPath = path.join(targetDir, file);
-
-                    try {
-                        fs.unlinkSync(fullPath);
-                        console.log(`[INFO] Removed translation file: ${file} (${languageCode} v${fileVersion})`);
-                        cleanedCount++;
-                    } catch (error) {
-                        console.warn(`[WARN] Failed to remove file ${file}: ${error}`);
-                    }
-                }
-            }
-        });
-
-        console.log(`[INFO] ✅ Cleanup completed. Removed ${cleanedCount} translation files.`);
-        return cleanedCount;
-    } catch (error) {
-        console.error(`[ERROR] Failed to cleanup translation files: ${error}`);
-        return 0;
-    }
+    console.log(`[INFO] ✅ Cleanup completed. Removed ${cleanedCount} translation files.`);
+    return cleanedCount;
+  } catch (error) {
+    console.error(`[ERROR] Failed to cleanup translation files: ${error}`);
+    return 0;
+  }
 }
 
 /**
@@ -68,27 +68,26 @@ export function cleanupOldTranslationFiles(
  * @returns 번역 파일 경로 또는 null (존재하지 않는 경우)
  */
 export function checkTranslationFileExists(
-    targetDir: string,
-    version: string,
-    baseName: string,
-    languageCode: string
+  targetDir: string,
+  version: string,
+  baseName: string,
+  languageCode: string
 ): string | null {
-    const translationFileName = `${baseName}_v${version}_${languageCode}.js`;
-    const translationFilePath = path.join(targetDir, translationFileName);
+  const translationFileName = `${baseName}_v${version}_${languageCode}.js`;
+  const translationFilePath = path.join(targetDir, translationFileName);
 
-    const exists = fs.existsSync(translationFilePath);
+  const exists = fs.existsSync(translationFilePath);
 
-    if (exists) {
-        console.log(`[INFO] Found existing translation file: ${translationFileName}`);
-    }
+  if (exists) {
+    console.log(`[INFO] Found existing translation file: ${translationFileName}`);
+  }
 
-    return exists ? translationFilePath : null;
+  return exists ? translationFilePath : null;
 }
 
 /**
  * 정규식에서 특수 문자를 이스케이프하는 헬퍼 함수
- * @private
  */
 function escapeRegex(string: string): string {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 } 
