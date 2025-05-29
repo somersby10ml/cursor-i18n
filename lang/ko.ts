@@ -164,7 +164,6 @@ export const REPLACEMENTS: Replacement[] = [
    searchType: "exact"
 },
 { originalText: "Git graph file relationships", changeText: "Git 그래프 파일 관계", searchType: "exact"},
-{ originalText: "default", changeText: "기본값", searchType: "exact"},
 { originalText: 'When set to true, Cursor will by default index any new folders opened. If turned off, you can still manually index folders by clicking the "Compute Index" button. Folders with more than', changeText: '활성화 시 Cursor는 기본적으로 새로 열리는 모든 폴더를 색인합니다. 이 기능을 끄더라도 "인덱스 계산" 버튼을 클릭하여 폴더를 수동으로 색인할 수 있습니다.', searchType: "exact"},
 
 {originalText: "files will not be auto-indexed.", changeText: " 개의 파일은 자동으로 인덱싱되지 않습니다.", searchType: "exact"},
