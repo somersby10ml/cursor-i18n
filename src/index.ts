@@ -116,7 +116,7 @@ async function restoreAndCleanup(): Promise<void> {
  * 도움말 출력
  */
 function printHelp(): void {
-  console.log('\n🌐 Cursor Language Patcher v2.0.0');
+  console.log('\n🌐 Cursor Language Patcher v0.0.2');
   console.log('================================');
   console.log('\nAvailable commands:');
   console.log('  bun run patch    # Apply Korean patch');

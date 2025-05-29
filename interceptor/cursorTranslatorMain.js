@@ -130,7 +130,7 @@ function initialize() {
 }
 
 // 시작
-console.log('[Patcher] 🚀 Cursor Language Patcher v2.0');
+console.log('[Patcher] 🚀 Cursor Language Patcher v0.0.2');
 initialize();
 
 // 원본 main.js 로드
