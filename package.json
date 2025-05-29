@@ -1,8 +1,12 @@
 {
-    "name": "workbench",
+    "name": "cursor-language-patch",
+    "description": "A tool to patch the cursor language registry for Bun.",
     "private": true,
     "main": "src/index.ts",
     "version": "0.0.1",
+    "bin": {
+        "cursor-language-patch": "./src/index.ts"
+    },
     "scripts": {
         "patch": "bun run ./src/index.ts --patch",
         "restore": "bun run ./src/index.ts --restore",
