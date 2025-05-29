@@ -35,19 +35,15 @@ async function applyLanguagePatch(): Promise<void> {
   const translatedFilePath = path.join(targetDir, translatedFileName);
 
   // 기존 번역 파일이 있는지 확인
-  if (fs.existsSync(translatedFilePath)) {
-    console.log(`✅ Translation file already exists: ${translatedFileName}`);
-  } else {
-    console.log(`📝 Creating Korean translation file...`);
-    const languagePackage = await loadLanguagePackage(languageCode);
-    if (!languagePackage) {
-      throw new Error('Failed to load Korean language package');
-    }
-    console.log(`📚 ${languagePackage.replacements.length} Korean translations loaded`);
-    const result = createTranslatedFile(targetPath, languagePackage.replacements, languageCode);
-    console.log(`✅ Translation file created successfully: ${path.basename(result.translatedFilePath)}`);
-    console.log(`   ${result.appliedCount} translations applied`);
+  console.log(`📝 Creating Korean translation file...`);
+  const languagePackage = await loadLanguagePackage(languageCode);
+  if (!languagePackage) {
+    throw new Error('Failed to load Korean language package');
   }
+  console.log(`📚 ${languagePackage.replacements.length} Korean translations loaded`);
+  const result = createTranslatedFile(targetPath, languagePackage.replacements, languageCode);
+  console.log(`✅ Translation file created successfully: ${path.basename(result.translatedFilePath)}`);
+  console.log(`   ${result.appliedCount} translations applied`);
 
   // 2. 인터셉터 배포
   console.log('\n📁 Deploying interceptor...');
