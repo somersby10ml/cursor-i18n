@@ -11,6 +11,7 @@
     // "source.organizeImports": "always",
   },
   "editor.tabSize": 2,
+  "files.eol": "\n",
   "eslint.validate": [
     "javascript",
     "javascriptreact",
