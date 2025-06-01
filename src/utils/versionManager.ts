@@ -3,7 +3,7 @@ import path from 'path';
 
 /**
  * 이전 버전의 번역 파일들을 정리하는 함수
- * 
+ *
  * @param targetDir 대상 디렉토리 (workbench.desktop.main.js가 있는 폴더)
  * @param currentVersion 현재 커서 버전 (예: "1.95.0")
  * @param baseName 기본 파일명 (예: "workbench.desktop.main")
@@ -26,7 +26,7 @@ export function cleanupOldTranslationFiles(
     const translationFilePattern = new RegExp(`^${escapeRegex(baseName)}_v(.+)_([a-z-]+)\\.js$`);
     let cleanedCount = 0;
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const match = file.match(translationFilePattern);
       if (match) {
         const [, fileVersion, languageCode] = match;
@@ -43,8 +43,9 @@ export function cleanupOldTranslationFiles(
             fs.unlinkSync(fullPath);
             console.log(`[INFO] Removed translation file: ${file} (${languageCode} v${fileVersion})`);
             cleanedCount++;
-          } catch (error) {
-            console.warn(`[WARN] Failed to remove file ${file}: ${error}`);
+          }
+          catch (error) {
+            console.warn(`[WARN] Failed to remove file ${file}`, error);
           }
         }
       }
@@ -52,15 +53,16 @@ export function cleanupOldTranslationFiles(
 
     console.log(`[INFO] ✅ Cleanup completed. Removed ${cleanedCount} translation files.`);
     return cleanedCount;
-  } catch (error) {
-    console.error(`[ERROR] Failed to cleanup translation files: ${error}`);
+  }
+  catch (error) {
+    console.error('[ERROR] Failed to cleanup translation files', error);
     return 0;
   }
 }
 
 /**
  * 특정 버전과 언어의 번역 파일이 존재하는지 확인
- * 
+ *
  * @param targetDir 대상 디렉토리
  * @param version 버전 (예: "1.95.0")
  * @param baseName 기본 파일명 (예: "workbench.desktop.main")
@@ -90,4 +92,4 @@ export function checkTranslationFileExists(
  */
 function escapeRegex(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-} 
+}

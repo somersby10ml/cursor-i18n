@@ -1,10 +1,10 @@
-import { getCursorIdeInstallPathMethod1 } from './utils/registry';
-import { getFileVersion } from './utils/fileVersion';
-import { createTranslatedFile } from './utils/filePatch';
-import { patchPackageJson, deployInterceptor, restorePackageJson } from './utils/packageManager';
-import { loadLanguagePackage } from './utils/languageManager';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+import { createTranslatedFile } from './utils/filePatch';
+import { getFileVersion } from './utils/fileVersion';
+import { loadLanguagePackage } from './utils/languageManager';
+import { deployInterceptor, patchPackageJson, restorePackageJson } from './utils/packageManager';
+import { getCursorIdeInstallPathMethod1 } from './utils/registry';
 
 const INTERCEPTOR_FILE_NAME = 'cursorTranslatorMain.js';
 const languageCode = 'ko';
@@ -25,7 +25,12 @@ async function applyLanguagePatch(): Promise<void> {
 
   const targetPath = path.join(
     cursorIdeInstallPath,
-    'resources', 'app', 'out', 'vs', 'workbench', 'workbench.desktop.main.js'
+    'resources',
+    'app',
+    'out',
+    'vs',
+    'workbench',
+    'workbench.desktop.main.js'
   );
   const targetDir = path.dirname(targetPath);
 
@@ -35,11 +40,10 @@ async function applyLanguagePatch(): Promise<void> {
   const translatedFilePath = path.join(targetDir, translatedFileName);
 
   // 기존 번역 파일이 있는지 확인
-  console.log(`📝 Creating Korean translation file...`);
+  console.log('📝 Creating Korean translation file...');
   const languagePackage = await loadLanguagePackage(languageCode);
-  if (!languagePackage) {
-    throw new Error('Failed to load Korean language package');
-  }
+  // console.log(`[INFO] ✅ Loaded ${languagePackage.REPLACEMENTS.length} translations for ${languageInfo.nativeName}`);
+
   console.log(`📚 ${languagePackage.replacements.length} Korean translations loaded`);
   const result = createTranslatedFile(targetPath, languagePackage.replacements, languageCode);
   console.log(`✅ Translation file created successfully: ${path.basename(result.translatedFilePath)}`);
@@ -78,7 +82,11 @@ async function restoreAndCleanup(): Promise<void> {
   const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
   const targetDir = path.join(
     cursorIdeInstallPath,
-    'resources', 'app', 'out', 'vs', 'workbench'
+    'resources',
+    'app',
+    'out',
+    'vs',
+    'workbench'
   );
 
   // 1. 번역 파일 제거
@@ -98,7 +106,8 @@ async function restoreAndCleanup(): Promise<void> {
   try {
     restorePackageJson(cursorIdeInstallPath);
     console.log('✅ package.json restoration completed');
-  } catch (error) {
+  }
+  catch (error) {
     console.warn('⚠️ Unable to restore package.json (may not have been patched)');
   }
 
@@ -128,7 +137,6 @@ function printHelp(): void {
  * 메인 진입점
  */
 async function main(): Promise<void> {
-
   // Windows 플랫폼 체크
   if (process.platform !== 'win32') {
     console.error('❌ Currently only Windows is supported.');

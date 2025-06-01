@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import type { Replacement } from '../../lang/types';
 
 /**
@@ -29,33 +27,33 @@ const SUPPORTED_LANGUAGES: readonly LanguageInfo[] = [
     code: 'ko',
     name: 'Korean',
     nativeName: '한국어',
-    enabled: true
+    enabled: true,
   },
   // 향후 추가 예정 언어들 (언어 파일 생성 후 enabled: true로 변경)
   {
     code: 'ja',
     name: 'Japanese',
     nativeName: '日本語',
-    enabled: false
+    enabled: false,
   },
   {
     code: 'zh-cn',
     name: 'Chinese (Simplified)',
     nativeName: '简体中文',
-    enabled: false
+    enabled: false,
   },
   {
     code: 'es',
     name: 'Spanish',
     nativeName: 'Español',
-    enabled: false
+    enabled: false,
   },
   {
     code: 'fr',
     name: 'French',
     nativeName: 'Français',
-    enabled: false
-  }
+    enabled: false,
+  },
 ] as const;
 
 /**
@@ -63,45 +61,39 @@ const SUPPORTED_LANGUAGES: readonly LanguageInfo[] = [
  * @returns 활성화된 언어 정보 배열
  */
 export function getAvailableLanguages(): readonly LanguageInfo[] {
-  return SUPPORTED_LANGUAGES.filter(lang => lang.enabled);
+  return SUPPORTED_LANGUAGES.filter((lang) => lang.enabled);
 }
 
 /**
  * 특정 언어의 번역 데이터를 동적으로 로드
  * @param languageCode 언어 코드 (예: 'ko', 'ja', 'zh-cn')
- * @returns 언어 패키지 또는 null
+ * @returns 언어 패키지
  */
-export async function loadLanguagePackage(languageCode: string): Promise<LanguagePackage | null> {
+export async function loadLanguagePackage(languageCode: string): Promise<LanguagePackage> {
   // 지원되는 언어인지 확인
-  const languageInfo = SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode);
+  const languageInfo = SUPPORTED_LANGUAGES.find((lang) => lang.code === languageCode);
   if (!languageInfo) {
-    console.warn(`[WARN] Unsupported language code: ${languageCode}`);
-    return null;
+    throw new Error(`Unsupported language code: ${languageCode}`);
   }
 
   if (!languageInfo.enabled) {
-    console.warn(`[WARN] Language not enabled yet: ${languageCode} (${languageInfo.nativeName})`);
-    return null;
+    throw new Error(`Language not enabled: ${languageInfo.nativeName}`);
   }
 
-  try {
-    // 동적 import를 사용하여 언어 파일 로드
-    const languageModule = await import(`../../lang/${languageCode}`);
+  // 동적 import를 사용하여 언어 파일 로드
 
-    if (!languageModule.REPLACEMENTS || !Array.isArray(languageModule.REPLACEMENTS)) {
-      throw new Error(`Invalid language file structure for ${languageCode}`);
-    }
-
-    console.log(`[INFO] ✅ Loaded ${languageModule.REPLACEMENTS.length} translations for ${languageInfo.nativeName}`);
-
-    return {
-      info: languageInfo,
-      replacements: languageModule.REPLACEMENTS
-    };
-  } catch (error) {
-    console.error(`[ERROR] Failed to load language package '${languageCode}':`, error);
-    return null;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const languageModule = await import(`../../lang/${languageCode}`);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (!languageModule.REPLACEMENTS || !Array.isArray(languageModule.REPLACEMENTS)) {
+    throw new Error(`Invalid language file structure for ${languageCode}`);
   }
+
+  return {
+    info: languageInfo,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    replacements: languageModule.REPLACEMENTS,
+  };
 }
 
 /**
@@ -141,7 +133,7 @@ export function getTranslatedFileName(originalFileName: string): string {
  * @returns 유효하고 활성화된 언어 코드인지 여부
  */
 export function isValidLanguageCode(languageCode: string): boolean {
-  return SUPPORTED_LANGUAGES.some(lang => lang.code === languageCode && lang.enabled);
+  return SUPPORTED_LANGUAGES.some((lang) => lang.code === languageCode && lang.enabled);
 }
 
 /**
@@ -150,5 +142,5 @@ export function isValidLanguageCode(languageCode: string): boolean {
  * @returns 언어 정보 또는 null
  */
 export function getLanguageInfo(languageCode: string): LanguageInfo | null {
-  return SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode) ?? null;
-} 
+  return SUPPORTED_LANGUAGES.find((lang) => lang.code === languageCode) ?? null;
+}

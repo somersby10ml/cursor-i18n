@@ -22,12 +22,12 @@ export function patchPackageJson(cursorInstallPath: string, interceptorFileName:
     const backupPath = `${packageJsonPath}.backup`;
     if (!fs.existsSync(backupPath)) {
       fs.copyFileSync(packageJsonPath, backupPath);
-      console.log(`[INFO] Created package.json backup`);
+      console.log('[INFO] Created package.json backup');
     }
 
     // package.json 읽기
     const packageContent = fs.readFileSync(packageJsonPath, 'utf-8');
-    const packageJson: PackageJson = JSON.parse(packageContent);
+    const packageJson = JSON.parse(packageContent) as PackageJson;
 
     // 원본 main 백업
     if (!packageJson.main_original && packageJson.main) {
@@ -41,10 +41,10 @@ export function patchPackageJson(cursorInstallPath: string, interceptorFileName:
 
     // 변경된 package.json 저장
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf-8');
-    console.log(`[INFO] package.json patched successfully`);
-
-  } catch (error) {
-    console.error(`[ERROR] Failed to patch package.json:`, error);
+    console.log('[INFO] package.json patched successfully');
+  }
+  catch (error) {
+    console.error('[ERROR] Failed to patch package.json:', error);
     throw error;
   }
 }
@@ -57,29 +57,32 @@ export function restorePackageJson(cursorInstallPath: string): void {
   const packageJsonPath = path.join(cursorInstallPath, 'resources', 'app', 'package.json');
   const backupPath = `${packageJsonPath}.backup`;
 
-  console.log(`[INFO] Restoring package.json from backup`);
+  console.log('[INFO] Restoring package.json from backup');
 
   try {
     if (fs.existsSync(backupPath)) {
       fs.copyFileSync(backupPath, packageJsonPath);
-      console.log(`[INFO] ✅ package.json restored from backup`);
-    } else {
+      console.log('[INFO] ✅ package.json restored from backup');
+    }
+    else {
       // 백업이 없으면 main_original 사용
       const packageContent = fs.readFileSync(packageJsonPath, 'utf-8');
-      const packageJson: PackageJson = JSON.parse(packageContent);
+      const packageJson = JSON.parse(packageContent) as PackageJson;
 
       if (packageJson.main_original) {
         packageJson.main = packageJson.main_original;
         delete packageJson.main_original;
 
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf-8');
-        console.log(`[INFO] ✅ package.json restored using main_original`);
-      } else {
-        console.warn(`[WARN] No backup or main_original found`);
+        console.log('[INFO] ✅ package.json restored using main_original');
+      }
+      else {
+        console.warn('[WARN] No backup or main_original found');
       }
     }
-  } catch (error) {
-    console.error(`[ERROR] Failed to restore package.json:`, error);
+  }
+  catch (error) {
+    console.error('[ERROR] Failed to restore package.json:', error);
     throw error;
   }
 }
@@ -108,15 +111,15 @@ export function deployInterceptor(cursorInstallPath: string, interceptorSourcePa
 
     if (fs.existsSync(originalMainPath) && !fs.existsSync(originalMainBackupPath)) {
       fs.copyFileSync(originalMainPath, originalMainBackupPath);
-      console.log(`[INFO] Backed up original main.js`);
+      console.log('[INFO] Backed up original main.js');
     }
 
     // 인터셉터 파일 복사
     fs.copyFileSync(interceptorSourcePath, targetPath);
-    console.log(`[INFO] Interceptor deployed successfully`);
-
-  } catch (error) {
-    console.error(`[ERROR] Failed to deploy interceptor:`, error);
+    console.log('[INFO] Interceptor deployed successfully');
+  }
+  catch (error) {
+    console.error('[ERROR] Failed to deploy interceptor:', error);
     throw error;
   }
-} 
+}
