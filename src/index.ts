@@ -7,7 +7,7 @@ import { deployInterceptor, patchPackageJson, restorePackageJson } from './utils
 import { getCursorIdeInstallPathMethod1 } from './utils/registry';
 
 const INTERCEPTOR_FILE_NAME = 'cursorTranslatorMain.js';
-const languageCode = 'ko';
+const languageCode = 'ko-kr';
 
 /**
  * 언어 패치 적용
