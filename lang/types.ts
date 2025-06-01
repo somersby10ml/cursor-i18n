@@ -8,4 +8,6 @@ export interface Replacement {
    * partial: 부분 일치하는 경우
    */
   readonly searchType: 'exact' | 'partial';
+
+  _changedCount?: number;
 }

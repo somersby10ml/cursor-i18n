@@ -76,6 +76,11 @@ export function createTranslatedFile(filePath: string, replacements: readonly Re
 
   // 번역 적용을 위한 편집 위치 찾기
   const edits = findTranslationTargets(ast, source, replacements);
+  for (const replacement of replacements) {
+    if (replacement._changedCount === 0) {
+      console.warn(`[WARNING] No changes applied for: '${replacement.originalText}'`);
+    }
+  }
 
   // 편집 적용
   const translatedContent = applyTranslations(source, edits);
@@ -200,13 +205,7 @@ function findTranslationTargets(ast: Node, source: string, replacements: readonl
 /**
  * 특정 범위의 문자열에 번역을 적용합니다.
  */
-function processStringRange(
-  start: number,
-  end: number,
-  sourceText: string,
-  editsArray: Edit[],
-  replacements: readonly Replacement[]
-): void {
+function processStringRange(start: number, end: number, sourceText: string, editsArray: Edit[], replacements: readonly Replacement[]): void {
   const raw = sourceText.slice(start, end);
   const delimiter = raw[0];  // ' or " or `
 
@@ -220,19 +219,31 @@ function processStringRange(
   let hasChanges = false;
 
   // 번역 규칙 적용
-  for (const { originalText, changeText, searchType } of replacements) {
+  for (const replacement of replacements) {
+    const { originalText, changeText, searchType } = replacement;
     if (searchType === 'exact') {
       if (newContent === originalText) {
         newContent = changeText;
         hasChanges = true;
-        break; // exact 매치는 하나만 적용
+
+        if (typeof replacement._changedCount === 'number') {
+          replacement._changedCount += 1;
+        }
+        else {
+          replacement._changedCount = 1;
+        }
       }
     }
     else {
       if (newContent.includes(originalText)) {
         newContent = newContent.split(originalText).join(changeText);
         hasChanges = true;
-        // partial 매치는 계속 다른 규칙도 적용
+        if (typeof replacement._changedCount === 'number') {
+          replacement._changedCount += 1;
+        }
+        else {
+          replacement._changedCount = 1;
+        }
       }
     }
   }

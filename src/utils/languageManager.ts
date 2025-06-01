@@ -89,11 +89,16 @@ export async function loadLanguagePackage(languageCode: string): Promise<Languag
     throw new Error(`Invalid language file structure for ${languageCode}`);
   }
 
-  return {
+  const items: LanguagePackage = {
     info: languageInfo,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     replacements: languageModule.REPLACEMENTS,
   };
+
+  for (const replacement of items.replacements) {
+    replacement._changedCount = 0;
+  }
+  return items;
 }
 
 /**
