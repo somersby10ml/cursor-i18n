@@ -168,8 +168,128 @@ export const REPLACEMENTS: Replacement[] = [
 
 {originalText: "files will not be auto-indexed.", changeText: " 개의 파일은 자동으로 인덱싱되지 않습니다.", searchType: "exact"},
 
-{originalText: 'When enabled, Cursor will index your git history to help understand which files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and obfuscated file names) are stored on the server.',
+{originalText: 'When enabled, Cursor will index your git history to help understand whi   ch files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and obfuscated file names) are stored on the server.',
   changeText: '활성화하면 Cursor는 git 기록을 인덱싱하여 파일 간의 관계를 이해하는 데 도움을 줍니다. 코드와 커밋 메시지는 로컬에 저장되지만 커밋에 대한 메타데이터(SHA, 변경 사항 수 및 난독화된 파일 이름)는 서버에 저장됩니다.',
   searchType: "exact"
+},
+
+// Editor Settings -> Cursor
+{originalText: 'Automatically select regions for inline code editing',
+  changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
+  searchType: "exact"
+},
+
+{
+  originalText: 'Automatically select regions for inline code editing',
+  changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
+  searchType: "exact"
+},
+
+
+{
+  originalText: 'Show hover hint in the terminal',
+  changeText: '터미널에서 마우스 오버 힌트 표시',
+  searchType: "exact"
+},
+{
+  originalText: 'Automatically select regions for inline code editing',
+  changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
+  searchType: "exact"
+},
+{originalText: 'Enable Cmd+P / Ctrl+P shortcut for file picker in Composer',
+  changeText: '컴포저에서 파일 선택기를 위한 Cmd+P / Ctrl+P 단축키 활성화',
+  searchType: "exact"
+},
+{originalText: 'Collapse input box pills in the composer pane',
+  changeText: '컴포저 창에서 입력 상자 태그 접기',
+  searchType: "exact"
+},
+
+{
+  originalText: 'Enable the creation of custom modes',
+  changeText: '사용자 지정 모드 생성 허용',
+  searchType: "exact"
+},
+{
+  originalText: 'Automatically accept all diffs in the composer once they are no longer in the worktree',
+  changeText: '작업 트리에서 사라진 후 컴포저에서 모든 변경 사항을 자동으로 수락합니다',
+  searchType: "exact"
 }
+,{originalText: 'Automatically save files in normal composers',
+  changeText: '일반 컴포저에서 파일 자동 저장',
+  searchType: "exact"
+},
+{originalText: 'Automatically scroll to the bottom of the composer pane when a new message is generated',
+  changeText: '새 메시지가 생성될 때 컴포저 창 하단으로 자동 스크롤합니다',
+  searchType: "exact"
+},
+{
+  originalText: 'Queue submitted messages when the composer is generating',
+  changeText: '컴포저가 생성 중일 때 제출된 메시지를 대기열에 추가합니다',
+  searchType: "exact"
+},
+{originalText: 'Show markdown hover participant actions',
+  changeText: '마크다운 마우스 오버 참가자 작업 표시',
+  searchType: "exact"
+},
+{originalText: 'Show suggested files in the composer',
+  changeText: '컴포저에서 제안된 파일 표시',
+  searchType: "exact"
+},
+
+{originalText: 'Controls the text size scale (relative to base 12px) of AI chat messages.',
+  changeText: 'AI 채팅 메시지의 텍스트 크기 배율을 조정합니다 (기본 12px 기준).',
+   searchType: "exact" },
+
+   {
+    originalText: 'Disable Cursor Tab for these languages',
+    changeText: '이 언어에 대해 Cursor Tab 비활성화',
+    searchType: "exact"
+   },
+
+   {
+    originalText: 'Enable partial accepts for Cursor Tab, using the editor.action.inlineSuggest.acceptNextWord keybinding',
+    changeText: 'Cursor Tab에 대해 부분 수락을 활성화하고, editor.action.inlineSuggest.acceptNextWord 키 바인딩을 사용합니다',
+    searchType: "exact"
+   },
+
+   {
+    originalText: 'Use character level diffs for inline diffs',
+    changeText: '인라인 변경 사항에 문자 수준 변경 사항 사용',
+    searchType: "exact"
+   },
+
+   {
+    originalText: "Disable HTTP/2 for all requests, and use HTTP/1.1 instead. This increases resource utilization and latency, but is useful if you're behind a corporate proxy that blocks HTTP/2.",
+    changeText: "모든 요청에 대해 HTTP/2를 비활성화하고 HTTP/1.1을 사용합니다. 이는 리소스 사용량과 대기 시간을 증가시키지만, HTTP/2를 차단하는 기업 프록시 뒤에 있는 경우 유용합니다.",
+    searchType: "exact"
+   },
+   {
+    originalText: 'Warning: this will increase the memory usage of Cursor. Some AI features use the shadow workspace to refine code in the background before presenting it to you. The shadow workspace is a hidden window running on your local machine in a copy of your current workspace.',
+    changeText: '경고: 이 설정은 Cursor의 메모리 사용량을 증가시킵니다. 일부 AI 기능은 코드를 사용자에게 제시하기 전에 백그라운드에서 개선하기 위해 그림자 작업 공간을 사용합니다. 그림자 작업 공간은 현재 작업 공간의 복사본에서 로컬 머신에서 실행되는 숨겨진 창입니다.',
+    searchType: "exact"
+   },
+   {
+    originalText: 'Index your git history to help Cursor understand which files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and encrypted file names) are stored on the server.',
+    changeText: 'Cursor가 파일 간의 관계를 이해하는 데 도움이 되도록 git 기록을 인덱싱합니다. 코드와 커밋 메시지는 로컬에 저장되지만, 커밋에 대한 메타데이터(SHA, 변경 사항 수 및 암호화된 파일 이름)는 서버에 저장됩니다.',
+    searchType: "exact"
+   },
+   {
+    originalText: 'Global list of files to always ignore in Cursor features, across all workspaces. Uses glob patterns. These patterns have the same effect as adding them to a .cursorignore file in every workspace.',
+    changeText: '모든 작업 공간에서 Cursor 기능에서 항상 무시할 파일의 전역 목록입니다. glob 패턴을 사용합니다. 이러한 패턴은 모든 작업 공간에 .cursorignore 파일을 추가하는 것과 동일한 효과를 가집니다.',
+    searchType: "exact"
+   },
+
+   {
+    originalText: 'Show notification toasts in the same location as the chat',
+    changeText: '채팅과 동일한 위치에 알림 토스트 표시',
+    searchType: "exact"
+   },
+   {
+    originalText: 'If turned off, responses are streamed directly into the shell',
+    changeText: '비활성화하면 응답이 셸에 직접 스트리밍됩니다',
+    searchType: "exact"
+   }
+
+
 ];
