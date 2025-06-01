@@ -8,7 +8,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.addMissingImports": "always",
-    "source.organizeImports": "always",
+    // "source.organizeImports": "always",
   },
   "editor.tabSize": 2,
   "eslint.validate": [

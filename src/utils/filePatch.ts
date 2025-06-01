@@ -1,8 +1,8 @@
-import type { Replacement } from "../../lang/types";
-import { parse } from "acorn";
-import { simple } from "acorn-walk";
 import fs from 'fs';
 import path from 'path';
+import { type Node, parse } from 'acorn';
+import { simple } from 'acorn-walk';
+import type { Replacement } from '../../lang/types';
 import { generatePatchFileName, getLanguageInfo } from './languageManager';
 
 /**
@@ -29,8 +29,10 @@ interface NodeWithRange {
 interface PatchResult {
   /** 생성된 번역 파일 경로 */
   readonly translatedFilePath: string;
+
   /** 적용된 번역 개수 */
   readonly appliedCount: number;
+
   /** 언어 정보 */
   readonly languageInfo: {
     readonly code: string;
@@ -41,13 +43,13 @@ interface PatchResult {
 
 /**
  * 파일에 언어별 번역을 적용하여 새로운 번역 파일을 생성합니다.
- * 
+ *
  * **보안 고려사항:**
  * - 입력 파일의 존재성과 읽기 권한을 검증
  * - AST 파싱을 통한 안전한 코드 분석 (임의 코드 실행 방지)
  * - 출력 파일 경로의 유효성 검증
  * - 메모리 사용량 제한을 위한 파일 크기 체크
- * 
+ *
  * @param filePath 원본 파일 경로 (보통 workbench.desktop.main.js)
  * @param replacements 번역 규칙 배열
  * @param languageCode 언어 코드 (예: "ko", "ja")
@@ -91,8 +93,8 @@ export function createTranslatedFile(filePath: string, replacements: readonly Re
     languageInfo: {
       code: languageInfo.code,
       name: languageInfo.name,
-      nativeName: languageInfo.nativeName
-    }
+      nativeName: languageInfo.nativeName,
+    },
   };
 }
 
@@ -104,21 +106,14 @@ function validateInputs(filePath: string, replacements: readonly Replacement[], 
     throw new Error('Invalid file path provided');
   }
 
-  if (!Array.isArray(replacements) || replacements.length === 0) {
-    throw new Error('Invalid or empty replacements array');
-  }
-
-  if (!languageCode || typeof languageCode !== 'string' || !/^[a-z-]+$/.test(languageCode)) {
+  if (!languageCode || typeof languageCode !== 'string' || !(/^[a-z-]+$/).test(languageCode)) {
     throw new Error('Invalid language code format');
   }
 
   // 번역 규칙 유효성 검증
   replacements.forEach((replacement, index) => {
-    if (!replacement.originalText || !replacement.changeText || !replacement.searchType) {
+    if (!replacement.originalText || !replacement.changeText) {
       throw new Error(`Invalid replacement rule at index ${index}`);
-    }
-    if (!['exact', 'partial'].includes(replacement.searchType)) {
-      throw new Error(`Invalid search type at index ${index}: ${replacement.searchType}`);
     }
   });
 }
@@ -156,39 +151,37 @@ function readAndValidateSourceFile(filePath: string): string {
     }
 
     return content;
-  } catch (error) {
-    throw new Error(`Failed to read source file: ${error}`);
+  }
+  catch (error) {
+    console.error(error);
+    throw new Error('Failed to read source file');
   }
 }
 
 /**
  * 소스 코드를 안전하게 AST로 파싱합니다.
  */
-function parseSourceCode(source: string, filePath: string): any {
-  try {
-    return parse(source, {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      ranges: true,
-      // 보안: 위험한 구문 파싱 비활성화
-      allowReturnOutsideFunction: false
-    });
-  } catch (error) {
-    throw new Error(`Failed to parse JavaScript file '${filePath}': ${error}`);
-  }
+function parseSourceCode(source: string, filePath: string) {
+  return parse(source, {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ranges: true,
+    // 보안: 위험한 구문 파싱 비활성화
+    allowReturnOutsideFunction: false,
+  });
 }
 
 /**
  * AST에서 번역 대상이 되는 문자열 리터럴들을 찾습니다.
  */
-function findTranslationTargets(ast: any, source: string, replacements: readonly Replacement[]): Edit[] {
+function findTranslationTargets(ast: Node, source: string, replacements: readonly Replacement[]): Edit[] {
   const edits: Edit[] = [];
 
   simple(ast, {
     Literal(node: any) {
       // 일반 따옴표 문자열 리터럴 처리
       const nodeWithRange = node as NodeWithRange;
-      if (typeof nodeWithRange.value === "string" && nodeWithRange.range) {
+      if (typeof nodeWithRange.value === 'string' && nodeWithRange.range) {
         processStringRange(nodeWithRange.range[0], nodeWithRange.range[1], source, edits, replacements);
       }
     },
@@ -198,7 +191,7 @@ function findTranslationTargets(ast: any, source: string, replacements: readonly
       if (nodeWithRange.range) {
         processStringRange(nodeWithRange.range[0], nodeWithRange.range[1], source, edits, replacements);
       }
-    }
+    },
   });
 
   return edits;
@@ -228,13 +221,14 @@ function processStringRange(
 
   // 번역 규칙 적용
   for (const { originalText, changeText, searchType } of replacements) {
-    if (searchType === "exact") {
+    if (searchType === 'exact') {
       if (newContent === originalText) {
         newContent = changeText;
         hasChanges = true;
         break; // exact 매치는 하나만 적용
       }
-    } else if (searchType === "partial") {
+    }
+    else {
       if (newContent.includes(originalText)) {
         newContent = newContent.split(originalText).join(changeText);
         hasChanges = true;
@@ -284,10 +278,12 @@ function saveTranslatedFile(
     fs.accessSync(parsedPath.dir, fs.constants.W_OK);
 
     // 번역 파일 저장
-    fs.writeFileSync(translatedFilePath, translatedContent, "utf8");
+    fs.writeFileSync(translatedFilePath, translatedContent, 'utf8');
 
     return translatedFilePath;
-  } catch (error) {
-    throw new Error(`Failed to save translated file: ${error}`);
+  }
+  catch (error) {
+    console.error(error);
+    throw new Error('Failed to save translated file');
   }
 }
