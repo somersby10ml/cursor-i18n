@@ -86,13 +86,18 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Privacy mode',
-    changeText: '개인 정보 보호 모드',
+    originalText: ' setting, not account-level.',
+    changeText: ' 해당 설정은 계정이 아닌 기기에 적용됩니다.',
     searchType: 'exact',
   },
   {
-    originalText: 'If on, none of your code will be stored by us. If off, we use prompts and telemetry to improve Cursor. This is a machine-level setting, not account-level. Read more.',
-    changeText: '활성화하면 코드가 저장되지 않습니다. 비활성화하면 프롬프트와 원격 분석을 사용하여 Cursor를 개선합니다. 이는 계정 수준이 아닌 기기 수준 설정입니다. 자세히 보기.',
+    originalText: '<strong>machine-level',
+    changeText: '<strong>',
+    searchType: 'exact',
+  },
+  {
+    originalText: 'Privacy mode',
+    changeText: '개인 정보 보호 모드',
     searchType: 'exact',
   },
   {
@@ -106,16 +111,10 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Check out our docs or join our forum.',
-    changeText: '문서를 확인하거나 포럼에 가입하세요.',
+    originalText: '<div>Check out our <span>docs</span> or join our <span>forum</span>.<br><br>Feel free to reach out at <span>hi@cursor.com</span>.',
+    changeText: '<div>우리의 <span>docs</span>를 확인하거나 우리의 <span>forum</span>에 참여하세요.<br><br> <span>hi@cursor.com</span>으로 언제든지 연락하세요.',
     searchType: 'exact',
   },
-  {
-    originalText: 'Feel free to reach out at',
-    changeText: '언제든지 다음 주소로 연락하세요',
-    searchType: 'exact',
-  },
-
   // Features
   {
     originalText: 'A powerful Copilot replacement that can suggest changes across multiple lines. Previously called Copilot++.',
@@ -248,8 +247,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Include project structure',
-    changeText: '프로젝트 구조 포함',
+    originalText: '<div>Include project structure ',
+    changeText: '<div>프로젝트 구조 포함 ',
     searchType: 'exact',
   },
   {
@@ -283,8 +282,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Add commands here if only very specific commands should be executed automatically',
-    changeText: '매우 특정한 명령만 자동으로 실행해야 하는 경우 여기에 명령을 추가합니다.',
+    originalText: 'Add commands here if only very specific commands should be executed automatically${s().isAdminControlled?" (controlled by admin)":""}',
+    changeText: '자동으로 실행되어야 하는 매우 특정한 명령어가 있다면 여기에 추가하세요${s().isAdminControlled?" (관리자에 의해 제어됨)":""}',
     searchType: 'exact',
   },
   {
@@ -298,8 +297,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Commands which should never be executed automatically',
-    changeText: '자동으로 실행되면 안 되는 명령어 목록입니다.',
+    originalText: 'Commands which should never be executed automatically${s().isAdminControlled?" (controlled by admin)":""}',
+    changeText: '자동으로 실행되어서는 안 되는 명령어${s().isAdminControlled?" (관리자에 의해 제어됨)":""}',
     searchType: 'exact',
   },
   {
@@ -398,8 +397,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Custom modes',
-    changeText: '사용자 지정 모드',
+    originalText: '<div>Custom modes',
+    changeText: '<div>사용자 지정 모드',
     searchType: 'exact',
   },
   {
@@ -408,8 +407,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Play sound on finish',
-    changeText: '완료 시 소리 재생',
+    originalText: '<div>Play sound on finish ',
+    changeText: '<div>완료 시 소리 재생 ',
     searchType: 'exact',
   },
   {
@@ -418,8 +417,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Auto Group Changes',
-    changeText: '변경사항 자동 그룹화',
+    originalText: '<div>Auto Group Changes ',
+    changeText: '<div>변경사항 자동 그룹화 ',
     searchType: 'exact',
   },
   {
@@ -428,8 +427,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Web Search Tool',
-    changeText: '웹 검색 도구',
+    originalText: '<div>Web Search Tool ',
+    changeText: '<div>웹 검색 도구 ',
     searchType: 'exact',
   },
   {
@@ -438,18 +437,13 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Docs\nAdd new doc',
-    changeText: '문서\n새 문서 추가',
-    searchType: 'exact',
-  },
-  {
     originalText: "Manage the custom docs that you've added.",
     changeText: '추가한 사용자 지정 문서를 관리합니다.',
     searchType: 'exact',
   },
   {
-    originalText: 'No docs added yet... Type "@Add" in a chat or in an edit to start a doc.\nEditor',
-    changeText: '아직 추가된 문서가 없습니다... 채팅이나 편집에서 "@Add"를 입력하여 문서를 시작하세요.\n편집기',
+    originalText: '<div>No docs added yet... Type "@Add" in a chat or in an edit to start a doc.',
+    changeText: '<div>아직 추가된 문서가 없습니다... 채팅이나 편집에서 "@Add"를 입력하여 문서를 시작하세요.',
     searchType: 'exact',
   },
   {
@@ -476,11 +470,6 @@ export const REPLACEMENTS: Replacement[] = [
     originalText: 'Auto select for',
     changeText: '자동 선택',
     searchType: 'partial',
-  },
-  {
-    originalText: 'Automatically select regions for inline code editing',
-    changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
-    searchType: 'exact',
   },
   {
     originalText: 'Use themed diff backgrounds',
@@ -533,8 +522,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Beta features',
-    changeText: '베타 기능',
+    originalText: '<div>Beta features',
+    changeText: '<div>베타 기능',
     searchType: 'exact',
   },
   {
@@ -628,11 +617,6 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Synced (11 files)',
-    changeText: '동기화됨 (11개 파일)',
-    searchType: 'exact',
-  },
-  {
     originalText: 'Resync Index',
     changeText: '인덱스 재동기화',
     searchType: 'exact',
@@ -658,8 +642,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Configure ignored files',
-    changeText: '무시할 파일 구성',
+    originalText: '<div class=settings__item_link>Configure ignored files',
+    changeText: '<div class=settings__item_link>무시할 파일 구성',
     searchType: 'exact',
   },
   {
@@ -683,8 +667,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'When enabled, Cursor will index your git history to help understand whi   ch files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and obfuscated file names) are stored on the server.',
-    changeText: '활성화하면 Cursor는 git 기록을 인덱싱하여 파일 간의 관계를 이해하는 데 도움을 줍니다. 코드와 커밋 메시지는 로컬에 저장되지만 커밋에 대한 메타데이터(SHA, 변경 사항 수 및 난독화된 파일 이름)는 서버에 저장됩니다.',
+    originalText: 'When enabled, Cursor will index your git history to help understand which files are related to each other. Code and commit messages are stored locally, but metadata about commits (SHAs, number of changes, and obfuscated file names) are stored on the server.',
+    changeText: '활성화하면 Cursor는 git 기록을 인덱싱하여 파일 간의 관계를 이해하는 데 도움을 줍니다. 코드와 커밋 메시지는 로컬에 저장되지만, 커밋에 대한 메타데이터(SHA, 변경 사항 수 및 암호화된 파일 이름)는 서버에 저장됩니다.',
     searchType: 'exact',
   },
 
@@ -695,18 +679,8 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
   {
-    originalText: 'Automatically select regions for inline code editing',
-    changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
-    searchType: 'exact',
-  },
-  {
     originalText: 'Show hover hint in the terminal',
     changeText: '터미널에서 마우스 오버 힌트 표시',
-    searchType: 'exact',
-  },
-  {
-    originalText: 'Automatically select regions for inline code editing',
-    changeText: '인라인 코드 편집을 위해 영역을 자동으로 선택합니다',
     searchType: 'exact',
   },
   {
@@ -799,10 +773,4 @@ export const REPLACEMENTS: Replacement[] = [
     changeText: '채팅과 동일한 위치에 알림 토스트 표시',
     searchType: 'exact',
   },
-  {
-    originalText: 'If turned off, responses are streamed directly into the shell',
-    changeText: '비활성화하면 응답이 셸에 직접 스트리밍됩니다',
-    searchType: 'exact',
-  },
-
 ];
