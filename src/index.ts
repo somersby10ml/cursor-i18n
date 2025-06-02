@@ -77,6 +77,54 @@ async function applyLanguagePatch(): Promise<void> {
   console.log('');
 }
 
+async function getAvailableLanguages(): Promise<string[]> {
+  const languages: string[] = [];
+  const languageDir = path.resolve('./lang');
+  const files = fs.readdirSync(languageDir);
+  const ignoredFiles = ['types.ts', 'llm-prompt.md'];
+
+  for (const file of files) {
+    if (!file.endsWith('.ts')) {
+      continue;
+    }
+    if (ignoredFiles.includes(file)) {
+      continue;
+    }
+
+    try {
+      const modulePath = path.join(languageDir, file);
+      const languageModule = await import(modulePath) as unknown;
+      if (!languageModule || typeof languageModule !== 'object') continue;
+      if (!('REPLACEMENTS' in languageModule)) continue;
+      if (!(Array.isArray(languageModule.REPLACEMENTS) && languageModule.REPLACEMENTS.length > 0)) continue;
+      languages.push(file.replace('.ts', ''));
+    }
+    catch (error) {
+      console.error(`Error loading language module ${file}:`, error);
+    }
+  }
+  return languages;
+}
+
+async function listAvailableLanguages(): Promise<void> {
+  const languages = await getAvailableLanguages();
+  if (languages.length === 0) {
+    console.log('No languages available.');
+    return;
+  }
+
+  const recommendedLanguage = (await osLocale()).toLocaleLowerCase();
+  console.log('\nAvailable languages:');
+  for (const lang of languages) {
+    if (lang.toLowerCase() === recommendedLanguage) {
+      console.log(`✅ ${lang} (Recommended)`);
+    }
+    else {
+      console.log(`ℹ️  ${lang}`);
+    }
+  }
+}
+
 /**
  * 원본 복구 및 모든 패치 제거
  */
@@ -165,6 +213,13 @@ function main() {
     .description('Revert language patch')
     .action(() => {
       void applyOrRevertLanguagePatch('revert', languageCode);
+    });
+
+  program
+    .command('list')
+    .description('List available languages')
+    .action(() => {
+      void listAvailableLanguages();
     });
 
   program.parse();
