@@ -1,10 +1,8 @@
 import fs from 'fs';
-import path, { basename, join, parse } from 'path';
+import path from 'path';
 import { type Node as acornNode, parse as acornParse } from 'acorn';
 import { simple } from 'acorn-walk';
 import type { Replacement } from '../../lang/types';
-import { type LanguagePackage, generatePatchFileName } from '../utils/languageManager';
-import { restorePackageJson } from '../utils/packageManager';
 import { CursorTranslator } from './CursorTranslator';
 
 interface Edit {
@@ -36,7 +34,7 @@ export class WindowsCursorTranslateService extends CursorTranslator {
 
     this.readTargetPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main.js');
     this.saveTranslatedFilePath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main_translated.js');
-    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench', basename(this.interceptorFilePath));
+    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench', path.basename(this.interceptorFilePath));
     this.readPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json');
     this.backupPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json.backup');
   }
@@ -92,7 +90,7 @@ export class WindowsCursorTranslateService extends CursorTranslator {
     }
 
     // main을 인터셉터로 변경
-    packageJson.main = `./out/${basename(this.interceptorFilePath)}`;
+    packageJson.main = `./out/${path.basename(this.interceptorFilePath)}`;
     fs.writeFileSync(this.readPackageJsonPath, JSON.stringify(packageJson, null, 2), 'utf-8');
   }
 
