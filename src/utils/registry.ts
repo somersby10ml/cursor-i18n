@@ -25,36 +25,30 @@ const queryRegistryItems = (paths: string[]): Promise<RegistryResult> => {
 };
 
 export async function getCursorIdeInstallPathMethod1(): Promise<string> {
-  try {
-    const registryPath = String.raw`HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\{DADADADA-ADAD-ADAD-ADAD-ADADADADADAD}}_is1`;
-    const result = await queryRegistryItems([registryPath]);
+  const registryPath = String.raw`HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\{DADADADA-ADAD-ADAD-ADAD-ADADADADADAD}}_is1`;
+  const result = await queryRegistryItems([registryPath]);
 
-    if (!result[registryPath]?.values) {
-      throw new Error('Specified registry key not found');
-    }
-
-    const values = result[registryPath].values;
-    const displayIcon = values.DisplayIcon?.value as string;
-
-    if (!displayIcon || typeof displayIcon !== 'string' || !displayIcon.toLowerCase().endsWith('cursor\\cursor.exe')) {
-      throw new Error('Invalid Cursor IDE DisplayIcon');
-    }
-
-    const installLocation = values.InstallLocation?.value as string;
-    if (!installLocation) {
-      throw new Error('InstallLocation not found');
-    }
-
-    if (!existsSync(installLocation)) {
-      throw new Error('Installation path does not exist');
-    }
-
-    return installLocation;
+  if (!result[registryPath]?.values) {
+    throw new Error('Specified registry key not found');
   }
-  catch (error) {
-    console.error('Error occurred during Method 1 registry search:', error);
-    throw error;
+
+  const values = result[registryPath].values;
+  const displayIcon = values.DisplayIcon?.value as string;
+
+  if (!displayIcon || typeof displayIcon !== 'string' || !displayIcon.toLowerCase().endsWith('cursor\\cursor.exe')) {
+    throw new Error('Invalid Cursor IDE DisplayIcon');
   }
+
+  const installLocation = values.InstallLocation?.value as string;
+  if (!installLocation) {
+    throw new Error('InstallLocation not found');
+  }
+
+  if (!existsSync(installLocation)) {
+    throw new Error('Installation path does not exist');
+  }
+
+  return installLocation;
 }
 
 export async function getCursorIdeInstallPathMethod2(): Promise<string> {
