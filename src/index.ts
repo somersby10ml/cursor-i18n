@@ -1,11 +1,16 @@
 import fs from 'fs';
 import path from 'path';
+import { Command } from 'commander';
 import { osLocale } from 'os-locale';
 import { createTranslatedFile } from './utils/filePatch';
 import { getFileVersion } from './utils/fileVersion';
 import { loadLanguagePackage } from './utils/languageManager';
 import { deployInterceptor, patchPackageJson, restorePackageJson } from './utils/packageManager';
 import { getCursorIdeInstallPathMethod1 } from './utils/registry';
+
+interface CommandLineOptions {
+  lang: string;
+}
 
 const INTERCEPTOR_FILE_NAME = 'cursorTranslatorMain.js';
 const languageCode = 'ko-kr';
@@ -121,69 +126,52 @@ async function restoreAndCleanup(): Promise<void> {
   console.log('');
 }
 
-/**
- * 도움말 출력
- */
-function printHelp(): void {
-  console.log('\n🌐 Cursor Language Patcher v0.0.2');
-  console.log('================================');
-  console.log('\nAvailable commands:');
-  console.log('  bun run patch    # Apply Korean patch');
-  console.log('  bun run restore  # Restore to original');
-  console.log('  bun run help     # Show this help');
-}
-
-/**
- * 메인 진입점
- */
-async function main(): Promise<void> {
-  // Windows 플랫폼 체크
+async function applyOrRevertLanguagePatch(action: 'apply' | 'revert', lang: string): Promise<void> {
+  // check windows platform
   if (process.platform !== 'win32') {
     console.error('Platform:', process.platform);
     console.error('❌ Currently only Windows is supported.');
     return;
   }
-
   const locale = await osLocale();
   console.log(`🌍 Detected system locale: ${locale}`);
 
-  const args = process.argv.slice(2);
-  const cmd = args[0]?.toLowerCase();
-  switch (cmd) {
-    // 패치 적용
-    case '--patch':
-    case 'patch':
-    case '-p':
-      await applyLanguagePatch();
-      break;
-
-    // 복구
-    case '--restore':
-    case 'restore':
-    case '-r':
-      await restoreAndCleanup();
-      break;
-
-    // 도움말
-    case '--help':
-    case 'help':
-    case '-h':
-      printHelp();
-      break;
-
-    // 명령어가 없거나 알 수 없는 명령어
-    default:
-      if (cmd) {
-        console.log(`\n❌ Unknown command: ${cmd}`);
-      }
-      printHelp();
-      break;
+  if (action === 'apply') {
+    await applyLanguagePatch();
+  }
+  else {
+    await restoreAndCleanup();
   }
 }
 
-// 실행
+function main() {
+  const program = new Command();
+
+  program
+    .name('cursor-translate')
+    .description('CLI tool')
+    .version('0.0.3', '-v, --version', 'Show version information');
+
+  program
+    .command('apply')
+    .description('Apply language patch')
+    .option('-l, --lang <language>', 'language setting', 'auto')
+    .action((options: CommandLineOptions) => {
+      void applyOrRevertLanguagePatch('apply', options.lang);
+    });
+
+  program
+    .command('revert')
+    .description('Revert language patch')
+    .action(() => {
+      void applyOrRevertLanguagePatch('revert', languageCode);
+    });
+
+  program.parse();
+}
+
 if (require.main === module) {
-  main().catch((error: unknown) => {
+  Promise.try(main).catch((error: unknown) => {
     console.error('\n❌ An error occurred:', error);
     console.log('\nIf you need support, please create a GitHub issue.');
     process.exit(1);

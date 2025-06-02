@@ -1,5 +1,5 @@
 {
-    "name": "cursor-language-patch",
+    "name": "cursor-translate",
     "description": "A tool to patch the cursor language registry for Bun.",
     "private": true,
     "main": "src/index.ts",
@@ -8,9 +8,7 @@
         "cursor-language-patch": "./src/index.ts"
     },
     "scripts": {
-        "patch": "bun run ./src/index.ts --patch",
-        "restore": "bun run ./src/index.ts --restore",
-        "help": "bun run ./src/index.ts help"
+        "start": "bun run ./src/index.ts --"
     },
     "devDependencies": {
         "@types/bun": "latest",
@@ -24,6 +22,7 @@
     "dependencies": {
         "acorn": "^8.14.1",
         "acorn-walk": "^8.3.4",
+        "commander": "^14.0.0",
         "ora": "^8.2.0",
         "os-locale": "^6.0.2",
         "regedit": "^5.1.4",
