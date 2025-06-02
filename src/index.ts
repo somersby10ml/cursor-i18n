@@ -1,11 +1,9 @@
-import fs from 'fs';
 import path from 'path';
 import { Command } from 'commander';
 import { osLocale } from 'os-locale';
-import { createTranslatedFile } from './utils/filePatch';
-import { getFileVersion } from './utils/fileVersion';
-import { loadLanguagePackage } from './utils/languageManager';
-import { deployInterceptor, patchPackageJson, restorePackageJson } from './utils/packageManager';
+import type { CursorTranslator } from './cursorTranslateService/CursorTranslator';
+import { WindowsCursorTranslateService } from './cursorTranslateService/WindowsCursorTranslator';
+import { getSupportedLanguageCodes, loadLanguageReplacements } from './utils/langModule';
 import { getCursorIdeInstallPathMethod1 } from './utils/registry';
 
 interface CommandLineOptions {
@@ -13,184 +11,6 @@ interface CommandLineOptions {
 }
 
 const INTERCEPTOR_FILE_NAME = 'cursorTranslatorMain.js';
-const languageCode = 'ko-kr';
-
-/**
- * 언어 패치 적용
- */
-async function applyLanguagePatch(): Promise<void> {
-  console.log('🎯 Applying localization patch...\n');
-
-  const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
-  const cursorIdeExecutablePath = path.join(cursorIdeInstallPath, 'Cursor.exe');
-  const fileVersion = getFileVersion(cursorIdeExecutablePath);
-
-  console.log(`📍 Cursor installation path: ${cursorIdeInstallPath}`);
-  console.log(`📦 Cursor version: ${fileVersion}`);
-
-  const targetPath = path.join(
-    cursorIdeInstallPath,
-    'resources',
-    'app',
-    'out',
-    'vs',
-    'workbench',
-    'workbench.desktop.main.js'
-  );
-  const targetDir = path.dirname(targetPath);
-
-  // 1. 기존 번역 파일 정리 (단순화된 파일명 사용)
-  console.log('\n🧹 Cleaning up previous translation files...');
-  const translatedFileName = 'workbench.desktop.main_translated.js';
-  const translatedFilePath = path.join(targetDir, translatedFileName);
-
-  // 기존 번역 파일이 있는지 확인
-  console.log('📝 Creating Korean translation file...');
-  const languagePackage = await loadLanguagePackage(languageCode);
-  // console.log(`[INFO] ✅ Loaded ${languagePackage.REPLACEMENTS.length} translations for ${languageInfo.nativeName}`);
-
-  console.log(`📚 ${languagePackage.replacements.length} Korean translations loaded`);
-  const result = createTranslatedFile(targetPath, languagePackage.replacements, languageCode);
-  console.log(`✅ Translation file created successfully: ${path.basename(result.translatedFilePath)}`);
-  console.log(`   ${result.appliedCount} translations applied`);
-
-  // 2. 인터셉터 배포
-  console.log('\n📁 Deploying interceptor...');
-  const interceptorSource = path.join(__dirname, '..', 'interceptor', INTERCEPTOR_FILE_NAME);
-  if (!fs.existsSync(interceptorSource)) {
-    throw new Error(`Interceptor file not found: ${interceptorSource}`);
-  }
-  deployInterceptor(cursorIdeInstallPath, interceptorSource, INTERCEPTOR_FILE_NAME);
-  console.log('✅ Interceptor deployment completed');
-
-  // 3. package.json 패치
-  console.log('\n⚙️  Updating package.json...');
-  patchPackageJson(cursorIdeInstallPath, INTERCEPTOR_FILE_NAME);
-  console.log('✅ package.json update completed');
-
-  console.log('\n🎉 Korean patch application completed!');
-  console.log('====================================');
-  console.log('');
-  console.log('📌 Next steps:');
-  console.log('   1. Close Cursor completely');
-  console.log('   2. Restart Cursor');
-  console.log('');
-}
-
-async function getAvailableLanguages(): Promise<string[]> {
-  const languages: string[] = [];
-  const languageDir = path.resolve('./lang');
-  const files = fs.readdirSync(languageDir);
-  const ignoredFiles = ['types.ts', 'llm-prompt.md'];
-
-  for (const file of files) {
-    if (!file.endsWith('.ts')) {
-      continue;
-    }
-    if (ignoredFiles.includes(file)) {
-      continue;
-    }
-
-    try {
-      const modulePath = path.join(languageDir, file);
-      const languageModule = await import(modulePath) as unknown;
-      if (!languageModule || typeof languageModule !== 'object') continue;
-      if (!('REPLACEMENTS' in languageModule)) continue;
-      if (!(Array.isArray(languageModule.REPLACEMENTS) && languageModule.REPLACEMENTS.length > 0)) continue;
-      languages.push(file.replace('.ts', ''));
-    }
-    catch (error) {
-      console.error(`Error loading language module ${file}:`, error);
-    }
-  }
-  return languages;
-}
-
-async function listAvailableLanguages(): Promise<void> {
-  const languages = await getAvailableLanguages();
-  if (languages.length === 0) {
-    console.log('No languages available.');
-    return;
-  }
-
-  const recommendedLanguage = (await osLocale()).toLocaleLowerCase();
-  console.log('\nAvailable languages:');
-  for (const lang of languages) {
-    if (lang.toLowerCase() === recommendedLanguage) {
-      console.log(`✅ ${lang} (Recommended)`);
-    }
-    else {
-      console.log(`ℹ️  ${lang}`);
-    }
-  }
-}
-
-/**
- * 원본 복구 및 모든 패치 제거
- */
-async function restoreAndCleanup(): Promise<void> {
-  console.log('\n🔄 Restoring original files and removing patches...');
-  console.log('==============================================');
-
-  const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
-  const targetDir = path.join(
-    cursorIdeInstallPath,
-    'resources',
-    'app',
-    'out',
-    'vs',
-    'workbench'
-  );
-
-  // 1. 번역 파일 제거
-  console.log('🧹 Removing translation files...');
-  const translatedFileName = 'workbench.desktop.main_translated.js';
-  const translatedFilePath = path.join(targetDir, translatedFileName);
-
-  let removedCount = 0;
-  if (fs.existsSync(translatedFilePath)) {
-    fs.unlinkSync(translatedFilePath);
-    removedCount++;
-    console.log(`   Removed: ${translatedFileName}`);
-  }
-
-  // 2. package.json 복구
-  console.log('⚙️ Restoring package.json...');
-  try {
-    restorePackageJson(cursorIdeInstallPath);
-    console.log('✅ package.json restoration completed');
-  }
-  catch (error) {
-    console.warn('⚠️ Unable to restore package.json (may not have been patched)');
-  }
-
-  console.log('\n🎉 Restoration completed!');
-  console.log('========================');
-  console.log(`📊 ${removedCount} translation files removed`);
-  console.log('');
-  console.log('📌 Next steps:');
-  console.log('   1. Restart Cursor');
-  console.log('   2. Interface restored to English');
-  console.log('');
-}
-
-async function applyOrRevertLanguagePatch(action: 'apply' | 'revert', lang: string): Promise<void> {
-  // check windows platform
-  if (process.platform !== 'win32') {
-    console.error('Platform:', process.platform);
-    console.error('❌ Currently only Windows is supported.');
-    return;
-  }
-  const locale = await osLocale();
-  console.log(`🌍 Detected system locale: ${locale}`);
-
-  if (action === 'apply') {
-    await applyLanguagePatch();
-  }
-  else {
-    await restoreAndCleanup();
-  }
-}
 
 function main() {
   const program = new Command();
@@ -212,7 +32,7 @@ function main() {
     .command('revert')
     .description('Revert language patch')
     .action(() => {
-      void applyOrRevertLanguagePatch('revert', languageCode);
+      void applyOrRevertLanguagePatch('revert');
     });
 
   program
@@ -223,6 +43,92 @@ function main() {
     });
 
   program.parse();
+}
+
+async function applyLanguagePatch(lang: string) {
+  const appliedLang = lang === 'auto' ? (await osLocale()).toLocaleLowerCase() : lang.toLowerCase();
+
+  const availableLanguages = getSupportedLanguageCodes();
+  if (!availableLanguages.includes(appliedLang)) {
+    console.error(`❌ Language "${appliedLang}" is not available.`);
+    console.log('ℹ️  Available languages:');
+    await listAvailableLanguages();
+    return;
+  }
+
+  console.log(`🌍 Applying language patch for: ${appliedLang}`);
+
+  const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
+  const replacements = await loadLanguageReplacements(appliedLang);
+
+  const cursorTranslators: CursorTranslator[] = [
+    new WindowsCursorTranslateService(cursorIdeInstallPath, path.resolve(`./interceptor/${INTERCEPTOR_FILE_NAME}`)),
+  ];
+
+  for (const translator of cursorTranslators) {
+    if (!translator.isSupported(process.platform)) {
+      console.error(`❌ ${translator.constructor.name} is not supported on this platform.`);
+      continue;
+    }
+
+    translator.install(replacements);
+    break;
+  }
+}
+
+async function revertLanguagePatch() {
+  const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
+
+  const cursorTranslators: CursorTranslator[] = [
+    new WindowsCursorTranslateService(cursorIdeInstallPath, path.resolve(`./interceptor/${INTERCEPTOR_FILE_NAME}`)),
+  ];
+
+  for (const translator of cursorTranslators) {
+    if (!translator.isSupported(process.platform)) {
+      console.error(`❌ ${translator.constructor.name} is not supported on this platform.`);
+      continue;
+    }
+
+    translator.uninstall();
+    break;
+  }
+}
+
+async function listAvailableLanguages(): Promise<void> {
+  const languages = getSupportedLanguageCodes();
+  if (languages.length === 0) {
+    console.log('No languages available.');
+    return;
+  }
+
+  const recommendedLanguage = (await osLocale()).toLocaleLowerCase();
+  console.log('\nAvailable languages:');
+  for (const lang of languages) {
+    if (lang.toLowerCase() === recommendedLanguage) {
+      console.log(`✅ ${lang} (Recommended)`);
+    }
+    else {
+      console.log(`ℹ️  ${lang}`);
+    }
+  }
+}
+
+async function applyOrRevertLanguagePatch(action: 'apply' | 'revert', lang?: string): Promise<void> {
+  // check windows platform
+  if (process.platform !== 'win32') {
+    console.error('Platform:', process.platform);
+    console.error('❌ Currently only Windows is supported.');
+    return;
+  }
+  const locale = await osLocale();
+  console.log(`🌍 Detected system locale: ${locale}`);
+
+  if (action === 'apply') {
+    await applyLanguagePatch(lang ?? 'auto');
+  }
+  else {
+    await revertLanguagePatch();
+  }
 }
 
 if (require.main === module) {
