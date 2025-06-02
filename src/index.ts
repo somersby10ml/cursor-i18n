@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { osLocale } from 'os-locale';
 import { createTranslatedFile } from './utils/filePatch';
 import { getFileVersion } from './utils/fileVersion';
 import { loadLanguagePackage } from './utils/languageManager';
@@ -13,8 +14,7 @@ const languageCode = 'ko-kr';
  * 언어 패치 적용
  */
 async function applyLanguagePatch(): Promise<void> {
-  console.log('\n🎯 Applying localization patch...');
-  console.log('=====================================');
+  console.log('🎯 Applying localization patch...\n');
 
   const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
   const cursorIdeExecutablePath = path.join(cursorIdeInstallPath, 'Cursor.exe');
@@ -139,9 +139,13 @@ function printHelp(): void {
 async function main(): Promise<void> {
   // Windows 플랫폼 체크
   if (process.platform !== 'win32') {
+    console.error('Platform:', process.platform);
     console.error('❌ Currently only Windows is supported.');
     return;
   }
+
+  const locale = await osLocale();
+  console.log(`🌍 Detected system locale: ${locale}`);
 
   const args = process.argv.slice(2);
   const cmd = args[0]?.toLowerCase();
