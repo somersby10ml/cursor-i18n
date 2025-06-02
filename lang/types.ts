@@ -1,13 +1,21 @@
-export interface Replacement {
-  readonly originalText: string;
-  readonly changeText: string;
+import { z } from 'zod';
+
+export const ReplacementSchema = z.object({
+  originalText: z.string(),
+  changeText: z.string(),
 
   /**
-   * 검색 타입
-   * exact: 정확히 일치하는 경우
-   * partial: 부분 일치하는 경우
+   * searchType
+   * exact: the original text must match exactly
+   * partial: the original text can be partially matched
    */
-  readonly searchType: 'exact' | 'partial';
+  searchType: z.union([z.literal('exact'), z.literal('partial')]),
+  _changedCount: z.number().optional(),
+});
 
-  _changedCount?: number;
-}
+export const LangModuleSchema = z.object({
+  REPLACEMENTS: z.array(ReplacementSchema),
+});
+
+export const ReplacementsArraySchema = z.array(ReplacementSchema);
+export type Replacement = z.infer<typeof ReplacementSchema>;

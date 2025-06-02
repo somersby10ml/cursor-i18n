@@ -26,6 +26,7 @@
         "ora": "^8.2.0",
         "os-locale": "^6.0.2",
         "regedit": "^5.1.4",
-        "win-version-info": "^6.0.1"
+        "win-version-info": "^6.0.1",
+        "zod": "^3.25.49"
     }
 }
