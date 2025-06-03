@@ -5,7 +5,7 @@
     "main": "src/index.ts",
     "version": "0.0.2",
     "bin": {
-        "cursor-language-patch": "./src/index.ts"
+        "cursor-translate": "./src/index.ts"
     },
     "scripts": {
         "start": "bun run ./src/index.ts --"
