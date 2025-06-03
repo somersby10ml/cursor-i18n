@@ -4,7 +4,7 @@
 # 🌐 Cursor i18n
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Runtime: Bun](https://img.shields.io/badge/Runtime-Bun-black.svg)](https://bun.sh)
+[![Runtime: Bun](https://img.shields.io/badge/Runtime-Bun-beige.svg)](https://bun.sh)
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com/windows/)
 
 
