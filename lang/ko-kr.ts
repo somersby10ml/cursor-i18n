@@ -1,5 +1,6 @@
 import { type Replacement } from './types';
 
+export const LOCALE = 'ko-kr';
 export const REPLACEMENTS: Replacement[] = [
 
   // Left Menu
@@ -774,3 +775,5 @@ export const REPLACEMENTS: Replacement[] = [
     searchType: 'exact',
   },
 ];
+
+export default { LOCALE, REPLACEMENTS };

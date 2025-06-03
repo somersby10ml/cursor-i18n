@@ -1,10 +1,12 @@
 import path from 'path';
 import { Command } from 'commander';
 import { osLocale } from 'os-locale';
+import { langs } from '../lang/lang';
 import type { CursorTranslator } from './cursorTranslateService/CursorTranslator';
 import { WindowsCursorTranslateService } from './cursorTranslateService/WindowsCursorTranslator';
-import { getSupportedLanguageCodes, loadLanguageReplacements } from './utils/langModule';
 import { getCursorIdeInstallPathMethod1 } from './utils/registry';
+
+const supportedLanguages = langs.map((l) => l.LOCALE.toLowerCase());
 
 interface CommandLineOptions {
   lang: string;
@@ -48,8 +50,7 @@ function main() {
 async function applyLanguagePatch(lang: string) {
   const appliedLang = lang === 'auto' ? (await osLocale()).toLocaleLowerCase() : lang.toLowerCase();
 
-  const availableLanguages = getSupportedLanguageCodes();
-  if (!availableLanguages.includes(appliedLang)) {
+  if (!supportedLanguages.includes(appliedLang)) {
     console.error(`❌ Language "${appliedLang}" is not available.`);
     console.log('ℹ️  Available languages:');
     await listAvailableLanguages();
@@ -59,7 +60,11 @@ async function applyLanguagePatch(lang: string) {
   console.log(`🌍 Applying language patch for: ${appliedLang}`);
 
   const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
-  const replacements = await loadLanguageReplacements(appliedLang);
+  const applyLang = langs.find((l) => l.LOCALE.toLowerCase() === appliedLang);
+  if (!applyLang) {
+    console.error(`❌ Language "${appliedLang}" not found in supported languages.`);
+    return;
+  }
 
   const cursorTranslators: CursorTranslator[] = [
     new WindowsCursorTranslateService(cursorIdeInstallPath, path.resolve(`./interceptor/${INTERCEPTOR_FILE_NAME}`)),
@@ -71,7 +76,7 @@ async function applyLanguagePatch(lang: string) {
       continue;
     }
 
-    translator.install(replacements);
+    translator.install(applyLang.REPLACEMENTS);
     break;
   }
 }
@@ -95,15 +100,14 @@ async function revertLanguagePatch() {
 }
 
 async function listAvailableLanguages(): Promise<void> {
-  const languages = getSupportedLanguageCodes();
-  if (languages.length === 0) {
+  if (supportedLanguages.length === 0) {
     console.log('No languages available.');
     return;
   }
 
   const recommendedLanguage = (await osLocale()).toLocaleLowerCase();
   console.log('\nAvailable languages:');
-  for (const lang of languages) {
+  for (const lang of supportedLanguages) {
     if (lang.toLowerCase() === recommendedLanguage) {
       console.log(`✅ ${lang} (Recommended)`);
     }
