@@ -2,10 +2,29 @@
     "name": "cursor-translate",
     "description": "A tool to patch the cursor language registry for Bun.",
     "private": true,
-    "main": "src/index.ts",
-    "version": "0.0.2",
+    "main": "./dist/index.js",
+    "version": "0.0.3-alpha.1",
+    "author": "somersby10ml",
+    "license": "MIT",
+    "keywords": [
+        "bun",
+        "cursor",
+        "translate",
+        "patch",
+        "language",
+        "registry"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/somersby10ml/cursor-translate.git"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
     "bin": {
-        "cursor-translate": "./src/index.ts"
+        "cursor-translate": "./dist/index.js"
     },
     "scripts": {
         "start": "bun run ./src/index.ts",
