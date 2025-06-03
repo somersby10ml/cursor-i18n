@@ -1,7 +1,7 @@
 > [!WARNING]  
 > Currently undergoing maintenance.
 
-# 🌐 Cursor Translate
+# 🌐 Cursor i18n
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Runtime: Bun](https://img.shields.io/badge/Runtime-Bun-black.svg)](https://bun.sh)
