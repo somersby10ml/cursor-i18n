@@ -26,14 +26,19 @@ Cursor Translate brings internationalization to Cursor IDE's interface, making i
 - **[Cursor IDE](https://www.cursor.com)** - Latest version recommended
 - **[Bun](https://bun.sh)** - Modern JavaScript runtime
 
-### ⚡ Lightning Setup (Recommended)
+### ⚡ Quick Setup (Recommended)
 
 ```bash
 # 🎯 Apply translation patch
-bunx github:somersby10ml/cursor-i18n apply
+bunx cursor-i18n apply
 
 # 🔄 Revert to original
-bunx github:somersby10ml/cursor-i18n revert
+bunx cursor-i18n revert
+```
+
+```bash
+npx cursor-i18n apply
+npx cursor-i18n revert
 ```
 
 ### 📦 NPM Alternative
