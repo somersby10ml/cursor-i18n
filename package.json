@@ -10,26 +10,28 @@
     },
     "license": "MIT",
     "preferGlobal": true,
-    "os": ["win32"],
+    "os": [
+        "win32"
+    ],
     "engines": {
         "node": ">=18.0.0"
     },
     "keywords": [
         "bun",
         "cursor",
-        "translate", 
+        "translate",
         "patch",
         "language",
         "registry",
         "i18n",
-        "internationalization", 
+        "internationalization",
         "IDE",
         "cli",
         "windows"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/somersby10ml/cursor-i18n.git"
+        "url": "git+https://github.com/somersby10ml/cursor-i18n.git"
     },
     "files": [
         "dist",
@@ -37,7 +39,7 @@
         "LICENSE"
     ],
     "bin": {
-        "cursor-i18n": "./dist/index.js"
+        "cursor-i18n": "dist/index.js"
     },
     "scripts": {
         "start": "bun run ./src/index.ts",
