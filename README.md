@@ -30,23 +30,23 @@ Cursor Translate brings internationalization to Cursor IDE's interface, making i
 
 ```bash
 # 🎯 Apply translation patch
-bunx github:somersby10ml/cursor-translate apply
+bunx github:somersby10ml/cursor-i18n apply
 
 # 🔄 Revert to original
-bunx github:somersby10ml/cursor-translate revert
+bunx github:somersby10ml/cursor-i18n revert
 ```
 
 ### 📦 NPM Alternative
 
 ```bash
 # Install globally
-npm install -g cursor-translate
+npm install -g cursor-i18n
 
 # Apply patch
-npx cursor-translate apply
+npx cursor-i18n apply
 
 # Revert changes
-npx cursor-translate revert
+npx cursor-i18n revert
 ```
 
 ## 🌍 Supported Languages
@@ -136,7 +136,7 @@ graph TD
 
 Cursor updates may reset the interface. Simply reapply the patch:
 ```bash
-bunx github:somersby10ml/cursor-translate apply
+bunx github:somersby10ml/cursor-i18n apply
 ```
 
 </details>
@@ -144,9 +144,9 @@ bunx github:somersby10ml/cursor-translate apply
 <details>
 <summary><b>🆘 Still Having Issues?</b></summary>
 
-- Check our [comprehensive FAQ](https://github.com/somersby10ml/cursor-translate/wiki/FAQ)
-- Join our [community discussions](https://github.com/somersby10ml/cursor-translate/discussions)
-- Create a [detailed issue report](https://github.com/somersby10ml/cursor-translate/issues/new)
+- Check our [comprehensive FAQ](https://github.com/somersby10ml/cursor-i18n/wiki/FAQ)
+- Join our [community discussions](https://github.com/somersby10ml/cursor-i18n/discussions)
+- Create a [detailed issue report](https://github.com/somersby10ml/cursor-i18n/issues/new)
 
 </details>
 

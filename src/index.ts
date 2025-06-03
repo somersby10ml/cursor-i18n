@@ -18,7 +18,7 @@ function main() {
   const program = new Command();
 
   program
-    .name('cursor-translate')
+    .name('cursor-i18n')
     .description('CLI tool')
     .version('0.0.3', '-v, --version', 'Show version information');
 
