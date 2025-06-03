@@ -135,10 +135,4 @@ async function applyOrRevertLanguagePatch(action: 'apply' | 'revert', lang?: str
   }
 }
 
-if (require.main === module) {
-  Promise.try(main).catch((error: unknown) => {
-    console.error('\n❌ An error occurred:', error);
-    console.log('\nIf you need support, please create a GitHub issue.');
-    process.exit(1);
-  });
-}
+main();

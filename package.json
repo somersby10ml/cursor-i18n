@@ -9,7 +9,7 @@
     },
     "scripts": {
         "start": "bun run ./src/index.ts",
-        "build": "bun build ./src/index.ts --outfile=./dist/index.js --target=node"
+        "build": "bun build ./src/index.ts --outfile=./dist/index.js --target=node --minify"
     },
     "devDependencies": {
         "@types/bun": "latest",
