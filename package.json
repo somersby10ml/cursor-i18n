@@ -34,6 +34,7 @@
         "url": "git+https://github.com/somersby10ml/cursor-i18n.git"
     },
     "files": [
+        "interceptor/*",
         "dist",
         "README.md",
         "LICENSE"
