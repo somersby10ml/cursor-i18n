@@ -1,18 +1,31 @@
 {
     "name": "cursor-i18n",
-    "description": "A tool to patch the cursor language registry for Bun.",
-    "private": true,
+    "description": "CLI tool to internationalize Cursor IDE interface with multiple language support",
     "main": "./dist/index.js",
     "version": "0.0.3-alpha.1",
     "author": "somersby10ml",
+    "homepage": "https://github.com/somersby10ml/cursor-i18n#readme",
+    "bugs": {
+        "url": "https://github.com/somersby10ml/cursor-i18n/issues"
+    },
     "license": "MIT",
+    "preferGlobal": true,
+    "os": ["win32"],
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "keywords": [
         "bun",
         "cursor",
-        "translate",
+        "translate", 
         "patch",
         "language",
-        "registry"
+        "registry",
+        "i18n",
+        "internationalization", 
+        "IDE",
+        "cli",
+        "windows"
     ],
     "repository": {
         "type": "git",
