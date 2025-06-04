@@ -30,15 +30,15 @@ Cursor Translate brings internationalization to Cursor IDE's interface, making i
 
 ```bash
 # 🎯 Apply translation patch
-bunx cursor-i18n apply
+bunx cursor-i18n@latest apply
 
 # 🔄 Revert to original
-bunx cursor-i18n revert
+bunx cursor-i18n@latest revert
 ```
 
 ```bash
-npx cursor-i18n apply
-npx cursor-i18n revert
+npx cursor-i18n@latest apply
+npx cursor-i18n@latest revert
 ```
 
 ### 📦 NPM Alternative
