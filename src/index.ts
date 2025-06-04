@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import path from 'path';
 import { Command } from 'commander';
 import { osLocale } from 'os-locale';
 import { langs } from '../lang/lang';
 import type { CursorTranslator } from './cursorTranslateService/CursorTranslator';
 import { WindowsCursorTranslateService } from './cursorTranslateService/WindowsCursorTranslator';
+import cursorTranslatorMain from './cursorTranslatorMain.js.file' with { type: 'text' };
 import { getCursorIdeInstallPathMethod1 } from './utils/registry';
 
 const supportedLanguages = langs.map((l) => l.LOCALE.toLowerCase());
@@ -13,8 +13,6 @@ const supportedLanguages = langs.map((l) => l.LOCALE.toLowerCase());
 interface CommandLineOptions {
   lang: string;
 }
-
-const INTERCEPTOR_FILE_NAME = 'cursorTranslatorMain.js';
 
 function main() {
   const program = new Command();
@@ -69,7 +67,7 @@ async function applyLanguagePatch(lang: string) {
   }
 
   const cursorTranslators: CursorTranslator[] = [
-    new WindowsCursorTranslateService(cursorIdeInstallPath, path.resolve(`./interceptor/${INTERCEPTOR_FILE_NAME}`)),
+    new WindowsCursorTranslateService(cursorIdeInstallPath, cursorTranslatorMain),
   ];
 
   for (const translator of cursorTranslators) {
@@ -87,7 +85,7 @@ async function revertLanguagePatch() {
   const cursorIdeInstallPath = await getCursorIdeInstallPathMethod1();
 
   const cursorTranslators: CursorTranslator[] = [
-    new WindowsCursorTranslateService(cursorIdeInstallPath, path.resolve(`./interceptor/${INTERCEPTOR_FILE_NAME}`)),
+    new WindowsCursorTranslateService(cursorIdeInstallPath, cursorTranslatorMain),
   ];
 
   for (const translator of cursorTranslators) {

@@ -34,7 +34,6 @@
         "url": "git+https://github.com/somersby10ml/cursor-i18n.git"
     },
     "files": [
-        "interceptor/*",
         "dist",
         "README.md",
         "LICENSE"
@@ -44,7 +43,7 @@
     },
     "scripts": {
         "start": "bun run ./src/index.ts",
-        "build": "bun build ./src/index.ts --outfile=./dist/index.js --target=node --minify"
+        "build": "bun build ./src/index.ts --outdir=./dist --target=node --minify"
     },
     "devDependencies": {
         "@types/bun": "latest",

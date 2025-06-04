@@ -29,12 +29,12 @@ export class WindowsCursorTranslateService extends CursorTranslator {
   private readPackageJsonPath: string;
   private backupPackageJsonPath: string;
 
-  constructor(cursorInstallPath: string, interceptorFilePath: string) {
-    super(cursorInstallPath, interceptorFilePath);
+  constructor(cursorInstallPath: string, interceptorFileContent: string) {
+    super(cursorInstallPath, interceptorFileContent);
 
     this.readTargetPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main.js');
     this.saveTranslatedFilePath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main_translated.js');
-    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench', path.basename(this.interceptorFilePath));
+    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/cursorTranslatorMain.js');
     this.readPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json');
     this.backupPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json.backup');
   }
@@ -74,7 +74,7 @@ export class WindowsCursorTranslateService extends CursorTranslator {
     fs.writeFileSync(this.saveTranslatedFilePath, output, 'utf8');
 
     // copy the interceptor file
-    fs.copyFileSync(this.interceptorFilePath, this.saveInterceptorPath);
+    fs.writeFileSync(this.saveInterceptorPath, this.interceptorFileContent);
 
     // backup the original package.json if it doesn't exist
     if (!fs.existsSync(this.backupPackageJsonPath)) {
@@ -90,7 +90,7 @@ export class WindowsCursorTranslateService extends CursorTranslator {
     }
 
     // main을 인터셉터로 변경
-    packageJson.main = `./out/${path.basename(this.interceptorFilePath)}`;
+    packageJson.main = './out/cursorTranslatorMain.js';
     fs.writeFileSync(this.readPackageJsonPath, JSON.stringify(packageJson, null, 2), 'utf-8');
   }
 
