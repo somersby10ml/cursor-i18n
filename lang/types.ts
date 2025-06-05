@@ -15,7 +15,6 @@ export const ReplacementSchema = z.object({
     z.literal('regex'),
   ]),
   flags: z.string().optional(),
-  _changedCount: z.number().optional(),
 });
 
 export const LangModuleSchema = z.object({
