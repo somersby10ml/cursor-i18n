@@ -71,18 +71,19 @@ npx cursor-i18n revert
 
 ```bash
 # Apply translation
-bun run apply
+bunx cursor-i18n apply
 
 # Revert to original
-bun run revert
+bunx cursor-i18n revert
 
 # Support language list
-bun run list
+bunx cursor-i18n list
 
 # Show help
-bun run help
+bunx cursor-i18n --help
 ```
 
+Use `bunx cursor-i18n --help` to see all available commands.
 ---
 
 ## 🔧 How It Works
@@ -129,9 +130,9 @@ graph TD
 <summary><b>🚨 Patch Not Working?</b></summary>
 
 1. **Close Cursor completely**
-2. **Run restore**: `bun run revert`
+2. **Run restore**: `bunx cursor-i18n revert`
 3. **Restart as administrator** (if needed)
-4. **Reapply patch**: `bun run apply`
+4. **Reapply patch**: `bunx cursor-i18n apply`
 5. **Launch Cursor**
 
 </details>
