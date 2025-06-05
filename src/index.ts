@@ -25,7 +25,7 @@ function main() {
   program
     .command('apply')
     .description('Apply language patch')
-    .option('-l, --lang <language>', 'language setting', 'auto')
+    .option('-l, --lang <language>', 'language setting(e.g ko-kr)', 'auto')
     .action((options: CommandLineOptions) => {
       void applyOrRevertLanguagePatch('apply', options.lang);
     });
