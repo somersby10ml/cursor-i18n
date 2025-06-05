@@ -34,7 +34,7 @@ export class WindowsCursorTranslateService extends CursorTranslator {
 
     this.readTargetPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main.js');
     this.saveTranslatedFilePath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/workbench.desktop.main_translated.js');
-    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/vs/workbench/cursorTranslatorMain.js');
+    this.saveInterceptorPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/out/cursorTranslatorMain.js');
     this.readPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json');
     this.backupPackageJsonPath = path.join(this.cursorIdeInstalledDirectory, 'resources/app/package.json.backup');
   }
