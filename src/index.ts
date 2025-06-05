@@ -20,7 +20,7 @@ function main() {
   program
     .name('cursor-i18n')
     .description('CLI tool')
-    .version('0.0.3-alpha.4', '-v, --version', 'Show version information');
+    .version('0.0.3-alpha.5', '-v, --version', 'Show version information');
 
   program
     .command('apply')
