@@ -193,8 +193,8 @@
 
   task();
 
-  setInterval(() => {
-    console.info();
-  }, 1000);
+  // setInterval(() => {
+  //   console.info();
+  // }, 1000);
 
 })();
