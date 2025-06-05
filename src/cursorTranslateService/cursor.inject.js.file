@@ -1,0 +1,200 @@
+
+
+(function () {
+  class TextTranslator {
+    constructor(mappings) {
+      this.mappings = mappings;
+      this.changedNodes = new Map(); // Track changed nodes
+    }
+
+    /**
+     * Find and translate all text nodes under a specific element
+     */
+    translateElement(rootElement) {
+      // Initialize change statistics
+      this.mappings.forEach(mapping => {
+        mapping._changedCount = 0;
+      });
+
+      // Use TreeWalker to traverse text nodes only
+      const walker = document.createTreeWalker(
+        rootElement,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: (node) => {
+            // Exclude text nodes with only whitespace
+            return node.textContent.trim() ?
+              NodeFilter.FILTER_ACCEPT :
+              NodeFilter.FILTER_REJECT;
+          }
+        }
+      );
+
+      const textNodes = [];
+      let node;
+      while (node = walker.nextNode()) {
+        textNodes.push(node);
+      }
+
+      // Apply translation to each text node
+      textNodes.forEach(textNode => {
+        this.translateTextNode(textNode);
+      });
+
+      return this.getTranslationReport();
+    }
+
+    /**
+     * Apply translation to individual text node
+     */
+    translateTextNode(textNode) {
+      const originalText = textNode.textContent;
+      let newText = originalText;
+
+      // Check each translation mapping
+      this.mappings.forEach(mapping => {
+        if (mapping.searchType === 'exact') {
+          // Exact match
+          if (newText.trim() === mapping.originalText) {
+            newText = mapping.changeText;
+            mapping._changedCount = (mapping._changedCount || 0) + 1;
+            this.changedNodes.set(textNode, {
+              original: originalText,
+              new: newText,
+              mapping: mapping
+            });
+          }
+        } else if (mapping.searchType === 'partial') {
+          // Partial match
+          if (newText.includes(mapping.originalText)) {
+            newText = newText.replace(
+              new RegExp(mapping.originalText, 'g'),
+              mapping.changeText
+            );
+            mapping._changedCount = (mapping._changedCount || 0) + 1;
+            this.changedNodes.set(textNode, {
+              original: originalText,
+              new: newText,
+              mapping: mapping
+            });
+          }
+        } else if (mapping.searchType === 'regex') {
+          // Regular expression match
+          const regex = new RegExp(mapping.originalText, mapping.flags || 'g');
+          if (regex.test(newText)) {
+            const replacedText = newText.replace(regex, mapping.changeText);
+            if (replacedText !== newText) {
+              newText = replacedText;
+              mapping._changedCount = (mapping._changedCount || 0) + 1;
+              this.changedNodes.set(textNode, {
+                original: originalText,
+                new: newText,
+                mapping: mapping
+              });
+            }
+          }
+        }
+      });
+
+      // Update text if it was changed
+      if (newText !== originalText) {
+        textNode.textContent = newText;
+      }
+    }
+
+    /**
+     * Highlight translatable texts
+     */
+    highlightTranslatableTexts(rootElement) {
+      const walker = document.createTreeWalker(
+        rootElement,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: (node) => {
+            return node.textContent.trim() ?
+              NodeFilter.FILTER_ACCEPT :
+              NodeFilter.FILTER_REJECT;
+          }
+        }
+      );
+
+      const textNodes = [];
+      let node;
+      while (node = walker.nextNode()) {
+        textNodes.push(node);
+      }
+
+      textNodes.forEach(textNode => {
+        const text = textNode.textContent.trim();
+        const hasMapping = this.mappings.some(mapping => {
+          if (mapping.searchType === 'exact') {
+            return text === mapping.originalText;
+          } else if (mapping.searchType === 'partial') {
+            return text.includes(mapping.originalText);
+          } else if (mapping.searchType === 'regex') {
+            const regex = new RegExp(mapping.originalText, mapping.flags || 'g');
+            return regex.test(text);
+          }
+          return false;
+        });
+
+        if (hasMapping && textNode.parentElement) {
+          textNode.parentElement.classList.add('highlight');
+        }
+      });
+    }
+
+    /**
+     * Generate translation report
+     */
+    getTranslationReport() {
+      const report = {
+        totalMappings: this.mappings.length,
+        usedMappings: this.mappings.filter(m => (m._changedCount || 0) > 0).length,
+        totalChanges: this.mappings.reduce((sum, m) => sum + (m._changedCount || 0), 0),
+        details: this.mappings.map(m => ({
+          originalText: m.originalText,
+          changeText: m.changeText,
+          searchType: m.searchType,
+          changedCount: m._changedCount || 0
+        }))
+      };
+      return report;
+    }
+
+    /**
+     * Clear highlights
+     */
+    clearHighlights(rootElement) {
+      const highlighted = rootElement.querySelectorAll('.highlight');
+      highlighted.forEach(el => el.classList.remove('highlight'));
+    }
+  }
+
+  function task() {
+    try {
+      const translationMappings = '${replacementsArray}'; // don't modify string
+      const cursorSettingElements = document.getElementsByClassName('cursor-settings-layout-main');
+      const editorSettingElements = document.getElementsByClassName('settings-editor');
+
+      if (cursorSettingElements.length === 0 && editorSettingElements.length === 0) {
+        throw new Error('0 return');
+      }
+
+      const targetElement = cursorSettingElements[0] || editorSettingElements[0];
+      const translator = new TextTranslator(translationMappings);
+      translator.translateElement(targetElement);
+    }
+    catch (error) {
+    }
+
+    setTimeout(task, 1000);
+  }
+
+  task();
+
+  setInterval(() => {
+    console.info();
+  }, 1000);
+
+})();

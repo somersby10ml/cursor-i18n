@@ -9,7 +9,12 @@ export const ReplacementSchema = z.object({
    * exact: the original text must match exactly
    * partial: the original text can be partially matched
    */
-  searchType: z.union([z.literal('exact'), z.literal('partial')]),
+  searchType: z.union([
+    z.literal('exact'),
+    z.literal('partial'),
+    z.literal('regex'),
+  ]),
+  flags: z.string().optional(),
   _changedCount: z.number().optional(),
 });
 
