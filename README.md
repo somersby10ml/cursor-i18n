@@ -8,10 +8,14 @@
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com/windows/)
 
 
+
 **Transform your Cursor IDE into a multilingual powerhouse! 🚀**
 
 Cursor Translate brings internationalization to Cursor IDE's interface, making it accessible to developers worldwide. Say goodbye to language barriers and hello to a truly global coding experience.
 
+
+<img src="./images/4.png" width="400">
+<img src="./images/3.png" width="400">
 
 ## ✨ Features
 
