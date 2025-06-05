@@ -2,7 +2,7 @@
     "name": "cursor-i18n",
     "description": "CLI tool to internationalize Cursor IDE interface with multiple language support",
     "main": "./dist/index.js",
-    "version": "0.0.3-alpha.5",
+    "version": "0.0.3-alpha.6",
     "author": "somersby10ml",
     "homepage": "https://github.com/somersby10ml/cursor-i18n#readme",
     "bugs": {
