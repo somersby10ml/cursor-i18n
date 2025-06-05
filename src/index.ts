@@ -77,6 +77,7 @@ async function applyLanguagePatch(lang: string) {
     }
 
     translator.install(applyLang.REPLACEMENTS);
+    console.log('✅ Language patch applied successfully.');
     break;
   }
 }
