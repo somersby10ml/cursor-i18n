@@ -1,5 +1,3 @@
-> [!WARNING]  
-> Currently undergoing maintenance.
 
 # 🌐 Cursor i18n
 
@@ -11,7 +9,9 @@
 
 **Transform your Cursor IDE into a multilingual powerhouse! 🚀**
 
-Cursor Translate brings internationalization to Cursor IDE's interface, making it accessible to developers worldwide. Say goodbye to language barriers and hello to a truly global coding experience.
+Cursor i18n localizes the Cursor IDE interface using a simple command line tool. The project is written in TypeScript and built with [Bun](https://bun.sh). The npm package ships with precompiled JavaScript so you can run it with either Bun or Node.
+
+Use `bunx cursor-i18n` or `npx cursor-i18n` to run the latest version without a global install.
 
 
 <img src="./images/4.png" width="400">
@@ -19,47 +19,38 @@ Cursor Translate brings internationalization to Cursor IDE's interface, making i
 
 ## ✨ Features
 
-- ⚡ **Simple Command Execution** - Easy one-click execution
-- 🛡️ **Safe Backup & Recovery** - Complete backup system for secure restoration
+- ⚡ **Simple Commands** – `apply`, `revert` and `list`
+- 🛡️ **Safe Backup & Recovery** – automatically backs up files
+- 🖥️ **Windows Support** – works on Windows 10/11 today
+- 🌍 **Future Language Expansions** – more locales coming soon
 
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Windows 10/11** 
-- **[Cursor IDE](https://www.cursor.com)** - Latest version recommended
-- **[Bun](https://bun.sh)** - Modern JavaScript runtime
+- **Windows 10/11**
+- **[Cursor IDE](https://www.cursor.com)** – latest version recommended
+- **[Bun](https://bun.sh)** – needed only if you build from source
+### ⚡ Quick Setup
 
-### ⚡ Quick Setup (Recommended)
-
-```bash
-# 🎯 Apply translation patch
-bunx cursor-i18n@latest apply
-
-# 🔄 Revert to original
-bunx cursor-i18n@latest revert
-```
+Run with `bunx` or `npx`:
 
 ```bash
-npx cursor-i18n@latest apply
-npx cursor-i18n@latest revert
+# Apply translation using your system locale
+bunx cursor-i18n@latest apply # or: npx cursor-i18n@latest apply
+
+# Apply a specific locale
+bunx cursor-i18n@latest apply --lang ko-kr # or: npx cursor-i18n@latest apply --lang ko-kr
+
+# Revert to original
+bunx cursor-i18n@latest revert # or: npx cursor-i18n@latest revert
 ```
 
-### 📦 NPM Alternative
 
-```bash
-# Install globally
-npm install -g cursor-i18n
 
-# Apply patch
-npx cursor-i18n apply
-
-# Revert changes
-npx cursor-i18n revert
-```
+You can also install globally with `npm install -g cursor-i18n`.
 
 ## 🌍 Supported Languages
-
 | Language | Locale Code |
 |----------|-------------|
 | 🇪🇸 Spanish | `es-es` |
@@ -69,24 +60,17 @@ npx cursor-i18n revert
 | 🇷🇺 Russian | `ru-ru` |
 | 🇨🇳 Chinese | `zh-cn` |
 
-
+More languages will be added in future releases.
 
 ## 🎯 Usage
 
 ```bash
-# Apply translation
-bunx cursor-i18n apply
-
-# Revert to original
-bunx cursor-i18n revert
-
-# Support language list
+# Show supported languages
 bunx cursor-i18n list
 
-# Show help
+# Help
 bunx cursor-i18n --help
 ```
-
 Use `bunx cursor-i18n --help` to see all available commands.
 ---
 
