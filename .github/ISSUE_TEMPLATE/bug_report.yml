@@ -1,0 +1,81 @@
+name: Bug Report
+description: File a bug report for Cursor i18n
+labels: [bug]
+title: "[Bug]: <short summary>"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue! Please fill out the sections below.
+  - type: textarea
+    id: issue
+    attributes:
+      label: Issue details
+      description: |
+        What went wrong? Be as clear and concise as possible.
+      placeholder: |
+        Example:
+        When running `cursor-i18n` on Windows 10 32-bit, the CLI exits without output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: |
+        Describe what you expected to happen instead.
+      placeholder: |
+        Example:
+        The CLI should generate `lang/en.json` without crashing.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Provide clear steps so we can reproduce the issue.
+      placeholder: |
+        Example:
+        1. Install dependencies with `bun install`
+        2. Run `cursor-i18n`
+        3. Observe the error message
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Operating system name and version.
+      placeholder: e.g. Windows 10 32-bit
+    validations:
+      required: true
+  - type: input
+    id: locale
+    attributes:
+      label: OS locale
+      description: System locale or language.
+      placeholder: e.g. ko-KR
+  - type: input
+    id: cursor_version
+    attributes:
+      label: Cursor version
+      description: Version information from **Help > About**.
+      placeholder: |
+        e.g. 1.0.0 (user setup), commit 1.96.2
+  - type: textarea
+    id: env_details
+    attributes:
+      label: Additional environment info
+      description: Node version, Electron version or anything else useful.
+      placeholder: |
+        Example:
+        Node.js: 132.0.6834.210
+        ElectronBuildId: 34.5.1
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Include screenshots, logs or any other information.
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve Cursor i18n!
