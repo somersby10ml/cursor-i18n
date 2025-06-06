@@ -156,8 +156,67 @@ bunx github:somersby10ml/cursor-i18n apply
 ---
 
 
+
+**📣 Disclaimer**: This project is not officially affiliated with Cursor or Anysphere.
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Help us make Cursor IDE accessible to more languages and users worldwide. 🌍
+
+### 🌐 Adding New Languages
+
+Want to add support for a new language? Follow these simple steps:
+
+1. **📁 Create Language Folder**
+   ```bash
+   mkdir lang/[locale-code]  # e.g., lang/pt-br for Portuguese (Brazil)
+   ```
+
+2. **📋 Follow Existing Structure**
+   - Reference other language folders (e.g., `/lang/ko-kr`, `/lang/es-es`)
+   - Maintain the same file organization and naming conventions
+   - Copy the structure and translate the content
+
+3. **🔗 Export Your Language**
+   - Add your language export to `/lang/lang.ts`
+   - Follow the existing pattern for consistency
+
+### ✏️ Adding Missing Translations
+
+Found some untranslated text? Here's how to help:
+
+1. **🎯 Navigate to Language Folder**
+   ```bash
+   cd lang/[locale-code]  # e.g., cd lang/es-es
+   ```
+
+2. **📝 Add or Update Translations**
+   - Create new translation files as needed
+   - Add missing translations to existing files
+   - File organization is by menu categories for convenience - don't worry about perfect categorization!
+
+3. **🧩 File Structure Guidelines**
+   - Files are organized by UI sections/menus for readability
+   - Feel free to add translations to any relevant file
+   - The exact file doesn't matter as much as having accurate translations
+
+### 🎨 Translation Tips
+
+- **🎯 Keep it contextual** - Consider the UI context when translating
+- **📏 Mind the length** - Some UI elements have space constraints
+- **🔤 Stay consistent** - Use consistent terminology throughout
+- **🧪 Test thoroughly** - Apply your translations and test the UI
+
+### 📬 Submitting Contributions
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b add-language-[locale]`)
+3. Commit your changes (`git commit -am 'Add [Language] translation'`)
+4. Push to the branch (`git push origin add-language-[locale]`)
+5. Create a Pull Request
+
+**🎉 Every contribution makes Cursor IDE more accessible to developers worldwide!**
+
 ## 📄 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-**📣 Disclaimer**: This project is not officially affiliated with Cursor or Anysphere.
