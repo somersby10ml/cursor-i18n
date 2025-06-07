@@ -1,3 +1,4 @@
+// This is not supposed to be imported on macos.
 import { existsSync } from 'fs';
 import regedit from 'regedit';
 
@@ -24,7 +25,7 @@ const queryRegistryItems = (paths: string[]): Promise<RegistryResult> => {
   });
 };
 
-export async function getCursorIdeInstallPathMethod1(): Promise<string> {
+export async function getWindowsCursorIdeInstallPathMethod1(): Promise<string> {
   const registryPath = String.raw`HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\{DADADADA-ADAD-ADAD-ADAD-ADADADADADAD}}_is1`;
   const result = await queryRegistryItems([registryPath]);
 
@@ -51,7 +52,7 @@ export async function getCursorIdeInstallPathMethod1(): Promise<string> {
   return installLocation;
 }
 
-export async function getCursorIdeInstallPathMethod2(): Promise<string> {
+export async function getWindowsCursorIdeInstallPathMethod2(): Promise<string> {
   try {
     const uninstallPath = String.raw`HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall`;
     const result = await queryRegistryItems([uninstallPath]);
