@@ -21,7 +21,7 @@ function main() {
   program
     .name('cursor-i18n')
     .description('CLI tool')
-    .version('0.0.3-alpha.6', '-v, --version', 'Show version information');
+    .version('0.0.3-alpha.7', '-v, --version', 'Show version information');
 
   program
     .command('apply')
