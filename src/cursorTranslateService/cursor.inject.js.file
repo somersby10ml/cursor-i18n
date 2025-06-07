@@ -188,7 +188,7 @@
     catch (error) {
     }
 
-    setTimeout(task, 1000);
+    setTimeout(task, 100);
   }
 
   task();
