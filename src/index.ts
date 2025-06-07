@@ -4,9 +4,9 @@ import { Command } from 'commander';
 import { osLocale } from 'os-locale';
 import { langs } from '../lang/lang';
 import type { CursorTranslator } from './cursorTranslateService/CursorTranslator';
+import { MacCursorTranslateService } from './cursorTranslateService/MacCursorTranslator';
 import { WindowsCursorTranslateService } from './cursorTranslateService/WindowsCursorTranslator';
 import cursorTranslatorMain from './cursorTranslatorMain.js.file' with { type: 'text' };
-import { MacCursorTranslateService } from './cursorTranslateService/MacCursorTranslator';
 import { getMacCursorIdeInstallPath, getWindowsCursorIdeInstallPath } from './utils/platform';
 
 const supportedLanguages = langs.map((l) => l.LOCALE.toLowerCase());
@@ -49,20 +49,17 @@ function main() {
 }
 
 async function getCursorTranslator(): Promise<CursorTranslator> {
-  let translator: CursorTranslator;
   if (process.platform === 'win32') {
     const installPath = await getWindowsCursorIdeInstallPath();
-    translator = new WindowsCursorTranslateService(installPath, cursorTranslatorMain);
+    return new WindowsCursorTranslateService(installPath, cursorTranslatorMain);
   }
   else if (process.platform === 'darwin') {
-    const installPath = await getMacCursorIdeInstallPath();
-    translator = new MacCursorTranslateService(installPath, cursorTranslatorMain);
+    const installPath = getMacCursorIdeInstallPath();
+    return new MacCursorTranslateService(installPath, cursorTranslatorMain);
   }
   else {
     throw new Error(`Unsupported platform: ${process.platform}`);
   }
-
-  return translator;
 }
 
 async function applyLanguagePatch(lang: string) {
@@ -127,10 +124,10 @@ async function applyOrRevertLanguagePatch(action: 'apply' | 'revert', lang?: str
   // Check the current platform
   if (!supportedPlatforms.includes(process.platform)) {
     console.error('Current Platform:', process.platform);
-    console.error(`❌ Currently only Windows and MacOS are supported.`);
+    console.error('❌ Currently only Windows and MacOS are supported.');
     return;
   }
-  
+
   console.log(`🖥️ Current platform: ${process.platform}`);
   const locale = await osLocale();
   console.log(`🌍 Detected system locale: ${locale}`);
