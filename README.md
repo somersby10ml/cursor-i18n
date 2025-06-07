@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Runtime: Bun](https://img.shields.io/badge/Runtime-Bun-beige.svg)](https://bun.sh)
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com/windows/)
+[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-blue.svg)](https://www.apple.com/macos/)
 
 
 
@@ -21,14 +22,14 @@ Use `bunx cursor-i18n` or `npx cursor-i18n` to run the latest version without a 
 
 - ⚡ **Simple Commands** – `apply`, `revert` and `list`
 - 🛡️ **Safe Backup & Recovery** – automatically backs up files
-- 🖥️ **Windows Support** – works on Windows 10/11 today
+- 🖥️ **Windows and macOS Support** – works on Windows 10/11 and macOS
 - 🌍 **Future Language Expansions** – more locales coming soon
 
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Windows 10/11**
+- **Windows 10/11 or macOS**
 - **[Cursor IDE](https://www.cursor.com)** – latest version recommended
 - **[Bun](https://bun.sh)** – needed only if you build from source
 ### ⚡ Quick Setup
