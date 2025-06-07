@@ -57,6 +57,7 @@
         "typescript": "^5"
     },
     "dependencies": {
+        "@clack/prompts": "^0.11.0",
         "commander": "^14.0.0",
         "ora": "^8.2.0",
         "os-locale": "^6.0.2",

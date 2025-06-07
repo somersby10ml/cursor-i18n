@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { isCancel, select } from '@clack/prompts';
 import { Command } from 'commander';
 import { osLocale } from 'os-locale';
 import { langs } from '../lang/lang';
@@ -63,20 +64,35 @@ async function getCursorTranslator(): Promise<CursorTranslator> {
 }
 
 async function applyLanguagePatch(lang: string) {
-  const appliedLang = lang === 'auto' ? (await osLocale()).toLocaleLowerCase() : lang.toLowerCase();
+  const detectLang = (await osLocale()).toLocaleLowerCase();
+  let appliedLang = '';
 
-  if (!supportedLanguages.includes(appliedLang)) {
-    console.error(`❌ Language "${appliedLang}" is not available.`);
-    console.log('ℹ️  Available languages:');
-    await listAvailableLanguages();
-    return;
+  if (lang === 'auto') {
+    const result = await select({
+      message: 'Choose: <arrow keys> to navigate, <enter> to confirm',
+      options: supportedLanguages.map((l) => ({
+        value: l,
+        label: l === detectLang ? `${l} (Recommended)` : l,
+      })),
+      initialValue: detectLang,
+    });
+
+    if (isCancel(result)) {
+      console.log('❌ Language selection cancelled.');
+      return;
+    }
+
+    appliedLang = result;
+  }
+  else {
+    appliedLang = lang.toLowerCase();
   }
 
   console.log(`🌍 Applying language patch for: ${appliedLang}`);
-
   const applyLang = langs.find((l) => l.LOCALE.toLowerCase() === appliedLang);
   if (!applyLang) {
     console.error(`❌ Language "${appliedLang}" not found in supported languages.`);
+    await listAvailableLanguages();
     return;
   }
 
