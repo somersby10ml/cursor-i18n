@@ -1,223 +1,193 @@
-
 # 🌐 Cursor i18n
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version: Beta](https://img.shields.io/badge/Version-Beta-orange.svg)](https://github.com/somersby10ml/cursor-i18n)
 [![Runtime: Bun](https://img.shields.io/badge/Runtime-Bun-beige.svg)](https://bun.sh)
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com/windows/)
 [![Platform: macOS](https://img.shields.io/badge/Platform-macOS-blue.svg)](https://www.apple.com/macos/)
 
-
-
 **Transform your Cursor IDE into a multilingual powerhouse! 🚀**
 
-Cursor i18n localizes the Cursor IDE interface using a simple command line tool. The project is written in TypeScript and built with [Bun](https://bun.sh). The npm package ships with precompiled JavaScript so you can run it with either Bun or Node.
+Break down language barriers and code in your native language. Cursor i18n brings seamless internationalization to your favorite IDE with just a single command.
 
-Use `bunx cursor-i18n` or `npx cursor-i18n` to run the latest version without a global install.
+<p align="center">
+  <img src="./images/4.png" width="400">
+  <img src="./images/3.png" width="400">
+</p>
 
+## ✨ Why Cursor i18n?
 
-<img src="./images/4.png" width="400">
-<img src="./images/3.png" width="400">
+- 🚀 **One-Command Magic** – Transform your IDE in seconds
+- 🛡️ **Zero Risk** – Automatic backup & recovery system
+- 🌍 **Growing Language Support** – 6 languages and counting
+- 💻 **Cross-Platform** – Windows & macOS ready
+- 🎯 **Non-Invasive** – Clean, reversible modifications
 
-## ✨ Features
+## 🌍 Supported Languages
 
-- ⚡ **Simple Commands** – `apply`, `revert` and `list`
-- 🛡️ **Safe Backup & Recovery** – automatically backs up files
-- 🖥️ **Windows and macOS Support** – works on Windows 10/11 and macOS
-- 🌍 **Future Language Expansions** – more locales coming soon
+| Language | Code | Status |
+|----------|------|--------|
+| 🇪🇸 Spanish | `es-es` | ✅ Ready |
+| 🇫🇷 French | `fr-fr` | ✅ Ready |
+| 🇯🇵 Japanese | `ja-jp` | ✅ Ready |
+| 🇰🇷 Korean | `ko-kr` | ✅ Ready |
+| 🇷🇺 Russian | `ru-ru` | ✅ Ready |
+| 🇨🇳 Chinese | `zh-cn` | ✅ Ready |
 
+*More languages coming soon! Want to contribute? See our [Contributing Guide](#-contributing)*
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- **Windows 10/11 or macOS**
-- **[Cursor IDE](https://www.cursor.com)** – latest version recommended
-- **[Bun](https://bun.sh)** – needed only if you build from source
-### ⚡ Quick Setup
-
-Run with `bunx` or `npx`:
+No installation required! Use with any package manager:
 
 ```bash
-# Apply translation using your system locale
-bunx cursor-i18n@latest apply # or: npx cursor-i18n@latest apply
+# Apply translation (auto-detects your system locale)
+npx cursor-i18n@latest apply
 
-# Apply a specific locale
-bunx cursor-i18n@latest apply --lang ko-kr # or: npx cursor-i18n@latest apply --lang ko-kr
+# Apply specific language
+npx cursor-i18n@latest apply --lang ko-kr
 
 # Revert to original
-bunx cursor-i18n@latest revert # or: npx cursor-i18n@latest revert
+npx cursor-i18n@latest revert
 ```
 
+**Using Bun? Replace `npx` with `bunx` for blazing fast execution! ⚡**
 
+## 📋 Available Commands
 
-You can also install globally with `npm install -g cursor-i18n`.
+| Command | Description | Example |
+|---------|-------------|---------|
+| `apply` | Apply translation to Cursor IDE | `npx cursor-i18n apply` |
+| `apply --lang <code>` | Apply specific language | `npx cursor-i18n apply --lang ja-jp` |
+| `revert` | Restore original Cursor interface | `npx cursor-i18n revert` |
+| `list` | Show all supported languages | `npx cursor-i18n list` |
+| `--help` | Display help information | `npx cursor-i18n --help` |
 
-## 🌍 Supported Languages
-| Language | Locale Code |
-|----------|-------------|
-| 🇪🇸 Spanish | `es-es` |
-| 🇫🇷 French | `fr-fr` |
-| 🇯🇵 Japanese | `ja-jp` |
-| 🇰🇷 Korean | `ko-kr` |
-| 🇷🇺 Russian | `ru-ru` |
-| 🇨🇳 Chinese | `zh-cn` |
+## 💻 Platform-Specific Usage
 
-More languages will be added in future releases.
-
-## 🎯 Usage
+### 🪟 Windows Setup
 
 ```bash
-# Show supported languages
-bunx cursor-i18n list
+# 1. Close Cursor completely (check Task Manager if needed)
+# 2. Run the command
+npx cursor-i18n@latest apply
 
-# Help
-bunx cursor-i18n --help
+# 3. Launch Cursor IDE
 ```
-Use `bunx cursor-i18n --help` to see all available commands.
----
+
+**⚠️ Important**: Ensure Cursor is completely closed before running commands!
+
+### 🍎 macOS Setup
+
+```bash
+# 1. Open Cursor's built-in terminal
+# 2. Run the command
+npx cursor-i18n@latest apply
+
+# 3. Quit Cursor completely (Cmd+Q)
+# 4. Relaunch Cursor IDE
+```
+
+**💡 Pro Tip**: Use Cursor's integrated terminal for the smoothest experience!
 
 ## 🔧 How It Works
 
-Cursor Translate uses a sophisticated, non-invasive approach:
+Our sophisticated approach ensures your IDE stays safe and sound:
 
 ```mermaid
 graph TD
-    A[🚀 Start Process] --> B[📋 Backup Original Files]
-    B --> C[🔧 Install Interceptor]
-    C --> D[🌐 Deploy Translation Files]
-    D --> E[✅ Patch Applied]
+    A[🚀 Start Process] --> B[💾 Create Safe Backups]
+    B --> C[🔧 Install Translation Layer]
+    C --> D[🌐 Deploy Language Files]
+    D --> E[✨ Enjoy Multilingual IDE]
     
-    E --> F{Revert Requested?}
-    F -->|Yes| G[📂 Restore Backups]
-    F -->|No| H[🎉 Enjoy Translated UI]
+    E --> F{Want to Revert?}
+    F -->|Yes| G[📂 Restore from Backup]
+    F -->|No| H[🎉 Keep Coding!]
     
-    G --> I[🔄 Original State Restored]
+    G --> I[🔄 Back to Original]
 ```
 
-### Technical Details
+### Under the Hood
 
-1. **🔒 Safe Backup**: Creates secure backups of all modified files
-2. **🎣 Protocol Interception**: Uses Electron's protocol interception for seamless translation
-3. **📁 File Structure**:
-   ```
-   Cursor Installation/
-   ├── resources/app/
-   │   ├── package.json (interceptor registration)
-   │   ├── package.json.backup (original backup)
-   │   └── out/
-   │       ├── cursorTranslatorMain.js (interceptor)
-   │       └── vs/workbench/
-   │           ├── workbench.desktop.main.js (original)
-   │           └── workbench.desktop.main_translated.js (translated)
-   ```
+- **🛡️ Safe Backup System** – Every file is backed up before modification
+- **🎯 Protocol Interception** – Uses Electron's built-in capabilities
+- **📁 Clean Architecture** – Organized file structure for easy maintenance
+- **🔄 Full Reversibility** – One command to restore everything
 
----
+## 🆘 Troubleshooting
 
+**🚨 Having Issues?**
 
-## 🛠️ Troubleshooting
+1. **First, try the basics:**
+   - Close Cursor completely
+   - Run `npx cursor-i18n revert`
+   - Restart Cursor
 
-<details>
-<summary><b>🚨 Patch Not Working?</b></summary>
+2. **Still not working?**
+   - Check our [FAQ Page](https://github.com/somersby10ml/cursor-i18n/wiki/FAQ)
+   - Join our [Community Discussions](https://github.com/somersby10ml/cursor-i18n/discussions)
 
-1. **Close Cursor completely**
-2. **Run restore**: `bunx cursor-i18n revert`
-3. **Restart as administrator** (if needed)
-4. **Reapply patch**: `bunx cursor-i18n apply`
-5. **Launch Cursor**
-
-</details>
-
-<details>
-<summary><b>🔄 After Cursor Update</b></summary>
-
-Cursor updates may reset the interface. Simply reapply the patch:
-```bash
-bunx github:somersby10ml/cursor-i18n apply
-```
-
-</details>
-
-<details>
-<summary><b>🆘 Still Having Issues?</b></summary>
-
-- Check our [comprehensive FAQ](https://github.com/somersby10ml/cursor-i18n/wiki/FAQ)
-- Join our [community discussions](https://github.com/somersby10ml/cursor-i18n/discussions)
-- Create a [detailed issue report](https://github.com/somersby10ml/cursor-i18n/issues/new)
-
-</details>
-
----
+3. **Found a bug?**
+   - Create an [Issue Report](https://github.com/somersby10ml/cursor-i18n/issues/new)
 
 ## ⚠️ Important Notes
 
-- 🔄 **Cursor updates** may require reapplying the patch
-- 💾 **Backup your work** before applying patches (good practice!)
-- 🔑 **No admin rights** required for standard installation
-- 🏢 **Enterprise environments** may have additional restrictions
-
----
-
-
-
-**📣 Disclaimer**: This project is not officially affiliated with Cursor or Anysphere.
+- 🔄 **After Cursor Updates**: You may need to reapply translations
+- 💾 **Development Mode**: Use Bun for development, any package manager for usage
+- 🏢 **Enterprise Users**: Some corporate environments may have restrictions
+- 🔑 **No Admin Required**: Works with standard user permissions
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Help us make Cursor IDE accessible to more languages and users worldwide. 🌍
+**Help us make Cursor IDE accessible worldwide! 🌍**
 
-### 🌐 Adding New Languages
+### 🌐 Add a New Language
 
-Want to add support for a new language? Follow these simple steps:
+1. **Create language folder**: `lang/[locale-code]`
+2. **Follow existing structure**: Check `/lang/ko-kr` or `/lang/es-es`
+3. **Export your language**: Add to `/lang/lang.ts`
+4. **Submit a PR**: We'll review and merge!
 
-1. **📁 Create Language Folder**
-   ```bash
-   mkdir lang/[locale-code]  # e.g., lang/pt-br for Portuguese (Brazil)
-   ```
+### 📝 Improve Translations
 
-2. **📋 Follow Existing Structure**
-   - Reference other language folders (e.g., `/lang/ko-kr`, `/lang/es-es`)
-   - Maintain the same file organization and naming conventions
-   - Copy the structure and translate the content
+1. **Navigate to your language**: `cd lang/[locale-code]`
+2. **Add missing translations**: Any file, any section
+3. **Test thoroughly**: Apply and check the UI
+4. **Share your work**: Submit a pull request
 
-3. **🔗 Export Your Language**
-   - Add your language export to `/lang/lang.ts`
-   - Follow the existing pattern for consistency
+**🎯 Translation Tips:**
+- Keep UI context in mind
+- Maintain consistency across terms
+- Test with actual usage scenarios
 
-### ✏️ Adding Missing Translations
+## 🛠️ Development Setup
 
-Found some untranslated text? Here's how to help:
+```bash
+# Clone the repository
+git clone https://github.com/somersby10ml/cursor-i18n.git
 
-1. **🎯 Navigate to Language Folder**
-   ```bash
-   cd lang/[locale-code]  # e.g., cd lang/es-es
-   ```
+# Install dependencies with Bun
+bun install
 
-2. **📝 Add or Update Translations**
-   - Create new translation files as needed
-   - Add missing translations to existing files
-   - File organization is by menu categories for convenience - don't worry about perfect categorization!
+# Build the project
+bun run build
 
-3. **🧩 File Structure Guidelines**
-   - Files are organized by UI sections/menus for readability
-   - Feel free to add translations to any relevant file
-   - The exact file doesn't matter as much as having accurate translations
+# Run locally
+bun run dev
+```
 
-### 🎨 Translation Tips
-
-- **🎯 Keep it contextual** - Consider the UI context when translating
-- **📏 Mind the length** - Some UI elements have space constraints
-- **🔤 Stay consistent** - Use consistent terminology throughout
-- **🧪 Test thoroughly** - Apply your translations and test the UI
-
-### 📬 Submitting Contributions
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b add-language-[locale]`)
-3. Commit your changes (`git commit -am 'Add [Language] translation'`)
-4. Push to the branch (`git push origin add-language-[locale]`)
-5. Create a Pull Request
-
-**🎉 Every contribution makes Cursor IDE more accessible to developers worldwide!**
+**Note**: While we use Bun for development, the published npm package works with any package manager!
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+Released under the **MIT License** – see [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+  <strong>Made with ❤️ for the global developer community</strong><br>
+  <em>Not affiliated with Cursor or Anysphere</em>
+</p>
+
+**⭐ Star this repo if it helped you code in your language!**
