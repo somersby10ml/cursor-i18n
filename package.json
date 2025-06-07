@@ -44,7 +44,7 @@
     },
     "scripts": {
         "start": "bun run ./src/index.ts",
-        "build": "rimraf ./dist && bun build ./src/index.ts --outdir=./dist --target=node --minify --external regedit"
+        "build": "rimraf ./dist && bun build ./src/index.ts --outdir=./dist --target=node --format=cjs --minify --external regedit"
     },
     "devDependencies": {
         "@types/bun": "latest",
